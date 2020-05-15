@@ -1,0 +1,37 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:5.2.0'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+group 'org.baito'
+version '1'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile 'net.dv8tion:JDA:4.1.1_113'
+    compile group: 'org.json', name: 'json', version: '20190722'
+    compile group: 'org.jfree', name: 'jfreechart', version: '1.5.0'
+    compile fileTree(dir: '/libs', include: '*.jar')
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'org.baito.Main'
+        )
+    }
+}
