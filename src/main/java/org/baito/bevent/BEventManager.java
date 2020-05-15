@@ -6,8 +6,10 @@ import org.baito.bevent.events.HourlyEvent;
 import org.baito.bevent.events.LevelUpEvent;
 import org.baito.data.Account;
 import org.baito.data.Modify;
+import org.baito.stonk.Market;
 
 import java.util.Calendar;
+import java.util.Collection;
 
 public class BEventManager {
 
@@ -24,8 +26,20 @@ public class BEventManager {
     }
 
     public static void onHourly(HourlyEvent e) {
+        // Puddle Day Calculation
         if (e.getTime().get(Calendar.HOUR_OF_DAY) % TimerManager.PUDDLE_DAY_INTERVAL == 0) {
 
+        }
+        // Market Calculation
+        for (Market i : (Collection<Market>) MasterRegistry.getSingularRegistry(Market.class).values()) {
+            // If you could not purchase before, but now you can AKA Saturday > Sunday
+            if (!i.canBuy(e.getPrevious()) && i.canBuy(e.getTime())) {
+
+            }
+            // If you could purchase before, but now you cant AKA Sunday > Monday
+            else if (!i.canBuy(e.getTime()) && i.canBuy(e.getPrevious())) {
+
+            }
         }
     }
 }

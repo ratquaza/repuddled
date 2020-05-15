@@ -5,7 +5,6 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
-import org.baito.API.TimerManager;
 import org.baito.API.command.CommandRegistry;
 import org.baito.API.config.Config;
 import org.baito.API.events.CommandEvent;
@@ -46,8 +45,6 @@ public class Main {
         CommandRegistry.register(new EconomyCommand(), "econ", "economy", "e");
         CommandRegistry.register(new AdminCommand(), "admin");
         CommandRegistry.register(new MarketCommand(), "market", "m");
-        TimerManager.getTimer("HOURLY");
-
     }
 
     public static void setChannel(Guild g, @Nullable TextChannel c) {
@@ -92,6 +89,19 @@ public class Main {
                 }
             }
         }
+
+        if (j.has("calendar")) {
+            JSONObject cal = j.getJSONObject("calendar");
+            c.set(
+                    cal.getInt("year"),
+                    cal.getInt("month"),
+                    cal.getInt("day"),
+                    cal.getInt("hour"),
+                    cal.getInt("minute"),
+                    cal.getInt("second")
+            );
+        }
+
     }
 
     public static void save() {
@@ -101,6 +111,14 @@ public class Main {
             notifs.put(i.getKey().getId(), i.getValue().getId());
         }
         j.put("notificationChannels", notifs);
+        JSONObject calendar = new JSONObject();
+        calendar.put("year", c.get(Calendar.YEAR));
+        calendar.put("month", c.get(Calendar.MONTH));
+        calendar.put("day", c.get(Calendar.DAY_OF_MONTH));
+        calendar.put("hour", c.get(Calendar.HOUR_OF_DAY));
+        calendar.put("minute", c.get(Calendar.MINUTE));
+        calendar.put("second", c.get(Calendar.SECOND));
+        j.put("calendar", calendar);
         config.save(j);
     }
 
@@ -118,6 +136,10 @@ public class Main {
 
     public static Calendar getCalendar() {
         c.setTime(new Date());
+        return c;
+    }
+
+    public static Calendar getCalendarNoUpdate() {
         return c;
     }
 }

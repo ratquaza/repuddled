@@ -34,4 +34,9 @@ public class EmeraldMarket extends Market {
     public void newStock() {
 
     }
+
+    @Override
+    public String getDescription() {
+        return "A unique Market, where its profit is equal to its volatility and unpredictability.";
+    }
 }

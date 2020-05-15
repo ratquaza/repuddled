@@ -1,6 +1,10 @@
 package org.baito.stonk;
 
+import net.dv8tion.jda.api.entities.User;
 import org.baito.Main;
+import org.baito.MasterRegistry;
+import org.baito.data.Account;
+import org.baito.data.Flag;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -38,5 +42,16 @@ public class DragonMarket extends Market {
     @Override
     public void newStock() {
         stock = (int) (100 + (10 * Math.floor(Math.random() * 11)));
+    }
+
+    @Override
+    public String getDescription() {
+        return "A subscription based Market, that profits with Maples.";
+    }
+
+    @Override
+    public boolean canBuy(User u) {
+        Account ac = (Account) MasterRegistry.getSerializableRegistry(Account.class).get(u);
+        return ac.getFlag(Flag.DINO_SUBSCRIPTION);
     }
 }

@@ -31,6 +31,10 @@ public class SerializableRegistry<K, V extends SerializableRegistryEntry<K>> {
         }
     }
 
+    public void batch(BatchFunction<V> action) {
+        registry.values().parallelStream().forEach(action::run);
+    }
+
     // Get an item, or create a new one using the DefaultAction
     public V get(K key) {
         V value;

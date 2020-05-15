@@ -5,7 +5,6 @@ import java.awt.*;
 public class EchidnaMarket extends Market {
     public EchidnaMarket() {
         super("Echidna", 0, new Color(50, 45, 45), false, 1, 300);
-        canBuy = true;
     }
 
     protected void newValues() {
@@ -34,5 +33,10 @@ public class EchidnaMarket extends Market {
     @Override
     public void newStock() {
 
+    }
+
+    @Override
+    public String getDescription() {
+        return "The basic Market, accessible to everyone.";
     }
 }

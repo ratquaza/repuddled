@@ -43,8 +43,7 @@ public abstract class Market implements SingularRegistryEntry<String> {
 
     protected int price; // Current price
     protected int[] history = new int[20]; // Price history, used for graphing
-    protected boolean canBuy = false; // Whether players can buy today
-    protected boolean useMaple = false;
+    protected boolean useMaple = false; // Use maple for price or not
 
     public final int[] getHistory() {return history;}
 
@@ -72,15 +71,6 @@ public abstract class Market implements SingularRegistryEntry<String> {
         return useMaple;
     }
 
-    public boolean canBuy(Calendar c) {
-        canBuy = c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY;
-        return canBuy;
-    }
-
-    public boolean canBuy(User u) {
-        return canBuy;
-    }
-
     public final int getPrice() {
         return price;
     }
@@ -91,6 +81,14 @@ public abstract class Market implements SingularRegistryEntry<String> {
 
     public final boolean hasIncreased() {
         return price >= history[1];
+    }
+
+    public boolean canBuy(Calendar c) {
+        return c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY;
+    }
+
+    public boolean canBuy(User u) {
+        return true;
     }
 
     public void step() {
@@ -120,6 +118,8 @@ public abstract class Market implements SingularRegistryEntry<String> {
 
     public abstract void newStock();
 
+    public abstract String getDescription();
+
     public int getStock() {
         return stock;
     }
@@ -142,7 +142,6 @@ public abstract class Market implements SingularRegistryEntry<String> {
     public JSONObject onSave() {
         JSONObject j = new JSONObject();
         j.put("price", price);
-        j.put("canBuy", canBuy);
         j.put("history", history);
 
         j.put("xMax", xMax);
@@ -165,10 +164,6 @@ public abstract class Market implements SingularRegistryEntry<String> {
         if (j.has("price")) {
             price = j.getInt("price");
         }
-        if (j.has("canBuy")) {
-            canBuy = j.getBoolean("canBuy");
-        }
-
         if (j.has("history")) {
             JSONArray his = j.getJSONArray("history");
             for (int i = 0; i < his.length(); i++) {

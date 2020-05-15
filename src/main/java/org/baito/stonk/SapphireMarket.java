@@ -34,4 +34,9 @@ public class SapphireMarket extends Market {
     public void newStock() {
 
     }
+
+    @Override
+    public String getDescription() {
+        return "A consistent and trustworthy Market.";
+    }
 }

@@ -34,4 +34,9 @@ public class RubyMarket extends Market {
     public void newStock() {
         stock = (int) (300 + (10 * Math.floor(Math.random() * 11 - 5)));
     }
+
+    @Override
+    public String getDescription() {
+        return "A fiery and volatile Market, unpredictable at best.";
+    }
 }
