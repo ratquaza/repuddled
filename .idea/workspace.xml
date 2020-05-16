@@ -1,7 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5cc9c2fb-128e-4a9f-a790-37bfb5773511" name="Default Changelist" comment="" />
+    <list default="true" id="5cc9c2fb-128e-4a9f-a790-37bfb5773511" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/baito/API/Events.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/API/TimerManager$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/API/TimerManager$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/API/TimerManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/API/TimerManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/API/registry/SerializableRegistry.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/API/registry/SerializableRegistry.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/bevent/BEventManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/bevent/events/BEvent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/bevent/events/HourlyEvent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/bevent/events/LevelUpEvent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/casino/games/multiplayer/MPCasinoGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/casino/games/multiplayer/MPCasinoGame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/casino/games/multiplayer/TicTacToe$Value.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/casino/games/multiplayer/TicTacToe$Value.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/casino/games/multiplayer/TicTacToe.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/casino/games/multiplayer/TicTacToe.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/commands/CasinoCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/commands/CasinoCommand.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/commands/MarketCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/commands/MarketCommand.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/data/Account$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/data/Account$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/data/Account.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/data/Account.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/data/Flag.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/data/Flag.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/stonk/DragonMarket.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/stonk/DragonMarket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/stonk/EchidnaMarket.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/stonk/EchidnaMarket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/stonk/EmeraldMarket.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/stonk/EmeraldMarket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/stonk/Market.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/stonk/Market.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/stonk/RubyMarket.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/stonk/RubyMarket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/stonk/SapphireMarket.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/stonk/SapphireMarket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/libs/repuddled-1-all.jar" beforeDir="false" afterPath="$PROJECT_DIR$/build/libs/repuddled-1-all.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/API/TimerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/baito/API/TimerManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/API/registry/BatchFunction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/API/registry/SerializableRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/baito/API/registry/SerializableRegistry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/API/registry/SingularRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/baito/API/registry/SingularRegistry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/baito/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/bevent/BEventManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/bevent/events/BEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/bevent/events/HourlyEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/bevent/events/LevelUpEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/commands/MarketCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/baito/commands/MarketCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/data/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/baito/data/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/data/Flag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/baito/data/Flag.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/stonk/DragonMarket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/baito/stonk/DragonMarket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/stonk/EchidnaMarket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/baito/stonk/EchidnaMarket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/stonk/EmeraldMarket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/baito/stonk/EmeraldMarket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/stonk/Market.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/baito/stonk/Market.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/stonk/RubyMarket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/baito/stonk/RubyMarket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/stonk/SapphireMarket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/baito/stonk/SapphireMarket.java" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,14 +100,18 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="AnnotationType" />
-        <option value="Interface" />
         <option value="Class" />
         <option value="Enum" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1b278ndWJON5ah1lopQ4q6CQF3b" />
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../mqtimetable" />
   </component>
   <component name="RecentsManager">
@@ -143,6 +199,31 @@
       <option name="presentableId" value="Default" />
       <updated>1587818177413</updated>
     </task>
+    <task id="LOCAL-00001" summary="market work, serialized calendar, hourly event, batch function on registries">
+      <created>1589586800176</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1589586800176</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="market work, serialized calendar, hourly event, batch function on registries" />
+    <option name="LAST_COMMIT_MESSAGE" value="market work, serialized calendar, hourly event, batch function on registries" />
   </component>
 </project>
