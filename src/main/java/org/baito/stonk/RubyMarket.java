@@ -1,6 +1,10 @@
 package org.baito.stonk;
 
+import net.dv8tion.jda.api.entities.User;
+
+import javax.annotation.Nullable;
 import java.awt.*;
+import java.util.Calendar;
 
 public class RubyMarket extends Market {
     public RubyMarket() {
@@ -30,13 +34,25 @@ public class RubyMarket extends Market {
         ))));
     }
 
+    // 150 - 450
     @Override
     public void newStock() {
-        stock = (int) (300 + (10 * Math.floor(Math.random() * 11 - 5)));
+        stock = (int) (300 * ((10 - (Math.random() * 11 - 5))/10));
     }
 
     @Override
     public String getDescription() {
         return "A fiery and volatile Market, unpredictable at best.";
+    }
+
+    @Override
+    public PurchadeMode purchadeMode(Calendar c) {
+        return c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ? PurchadeMode.SELLING : PurchadeMode.BUYING;
+    }
+
+    // If the day is a weekend, the Market is closed
+    @Override
+    public boolean isOpen(Calendar c, @Nullable User u) {
+        return c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY;
     }
 }

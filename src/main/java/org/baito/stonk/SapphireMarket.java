@@ -1,6 +1,10 @@
 package org.baito.stonk;
 
+import net.dv8tion.jda.api.entities.User;
+
+import javax.annotation.Nullable;
 import java.awt.*;
+import java.util.Calendar;
 
 public class SapphireMarket extends Market {
     public SapphireMarket() {
@@ -30,13 +34,25 @@ public class SapphireMarket extends Market {
         ))));
     }
 
+    // Always 300
     @Override
     public void newStock() {
-
+        stock = 300;
     }
 
     @Override
     public String getDescription() {
         return "A consistent and trustworthy Market.";
+    }
+
+    @Override
+    public PurchadeMode purchadeMode(Calendar c) {
+        return c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ? PurchadeMode.SELLING : PurchadeMode.BUYING;
+    }
+
+    // If the day is a weekend, the Market is closed
+    @Override
+    public boolean isOpen(Calendar c, @Nullable User u) {
+        return c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY;
     }
 }

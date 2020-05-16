@@ -1,6 +1,10 @@
 package org.baito.stonk;
 
+import net.dv8tion.jda.api.entities.User;
+
+import javax.annotation.Nullable;
 import java.awt.*;
+import java.util.Calendar;
 
 public class EchidnaMarket extends Market {
     public EchidnaMarket() {
@@ -30,13 +34,27 @@ public class EchidnaMarket extends Market {
         ))));
     }
 
+    // 500 - 1500
     @Override
     public void newStock() {
-
+        stock = 1000 + (int) Math.floor((Math.random() * 1001) - 500);
     }
 
     @Override
     public String getDescription() {
         return "The basic Market, accessible to everyone.";
+    }
+
+    // Monday: Selling Echidnas
+    // Tuesday - Friday: Buying Echidnas
+    @Override
+    public PurchadeMode purchadeMode(Calendar c) {
+        return c.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY ? PurchadeMode.SELLING : PurchadeMode.BUYING;
+    }
+
+    // If the day is a weekend, the Market is closed
+    @Override
+    public boolean isOpen(Calendar c, @Nullable User u) {
+        return c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY;
     }
 }

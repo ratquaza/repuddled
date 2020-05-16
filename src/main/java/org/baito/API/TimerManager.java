@@ -1,10 +1,7 @@
 package org.baito.API;
 
 import org.baito.Main;
-import org.baito.bevent.BEventManager;
-import org.baito.bevent.events.HourlyEvent;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public final class TimerManager {
@@ -29,15 +26,19 @@ public final class TimerManager {
 
     public static final int PUDDLE_DAY_INTERVAL = 8;
 
-    static {
+    public static void init() {
         Calendar currentTime = Main.getCalendar();
         Duration duration = new Duration().setSeconds(3600 - currentTime.get(Calendar.MINUTE) * 60 - currentTime.get(Calendar.SECOND));
 
         register("HOURLY", new TimerTask() {
             @Override
             public void run() {
-                BEventManager.onHourly(new HourlyEvent(Main.getCalendar()));
+                Calendar prev = (Calendar) Main.getCalendar().clone();
+                prev.set(Calendar.HOUR_OF_DAY, prev.get(Calendar.HOUR_OF_DAY) - 1);
+                Calendar curr = (Calendar) Main.getCalendar().clone();
+                Events.onHourly(curr);
             }
-        }, duration.toMilliseconds(), new Duration().setHours(1).toMilliseconds());
+        }, 0, new Duration().setHours(1).toMilliseconds());
     }
+
 }

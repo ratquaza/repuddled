@@ -5,6 +5,7 @@ import org.baito.API.registry.SingularRegistryEntry;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -45,8 +46,8 @@ public abstract class Market implements SingularRegistryEntry<String> {
     protected int[] history = new int[20]; // Price history, used for graphing
     protected boolean useMaple = false; // Use maple for price or not
 
+    // Final methods, can not be overridden.
     public final int[] getHistory() {return history;}
-
     public final int getHighest() {
         int max = minimum-1;
         for (int i : history) {
@@ -54,7 +55,6 @@ public abstract class Market implements SingularRegistryEntry<String> {
         }
         return max;
     }
-
     public final int getLowest() {
         int min = maximum+1;
         for (int i : history) {
@@ -62,35 +62,37 @@ public abstract class Market implements SingularRegistryEntry<String> {
         }
         return min;
     }
-
     public final int average() {
         return (int) Math.round(Arrays.stream(history).average().getAsDouble());
     }
-
     public final boolean usesMaple() {
         return useMaple;
     }
-
     public final int getPrice() {
         return price;
     }
-
     public final int getLevel() {
         return level;
     }
-
     public final boolean hasIncreased() {
         return price >= history[1];
     }
-
-    public boolean canBuy(Calendar c) {
-        return c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY;
+    public final int getStock() {
+        return stock;
+    }
+    public final String getName() {
+        return type;
     }
 
-    public boolean canBuy(User u) {
+    // Methods, can be overriden
+    // Whether players can buy, sell, or both right now
+    public PurchadeMode purchadeMode(Calendar c) {
+        return c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ? PurchadeMode.SELLING : PurchadeMode.BUYING;
+    }
+    // Whether the Market is open
+    public boolean isOpen(Calendar c, @Nullable User u) {
         return true;
     }
-
     public void step() {
         // Move every history back 1 step
         int[] newHistory = new int[20];
@@ -112,22 +114,13 @@ public abstract class Market implements SingularRegistryEntry<String> {
         history[0] = price;
     }
 
+    // Abstract methods, must be overridden.
     protected abstract void newValues();
-
     protected abstract void calcPrice();
-
     public abstract void newStock();
-
     public abstract String getDescription();
 
-    public int getStock() {
-        return stock;
-    }
-
-    public String getName() {
-        return type;
-    }
-
+    // Serializing and etc
     @Override
     public String getKey() {
         return type.toUpperCase();
@@ -210,4 +203,21 @@ public abstract class Market implements SingularRegistryEntry<String> {
         return o instanceof Market && o.hashCode() == hashCode();
     }
 
+    // State of a Market.
+    // Used to determine if players can buy, sell, both, or neither.
+    // Different from Market's being open and closed, as open or closing is used for determining when stock and player count should be reset.
+    // This is because sometimes Markets can be open without being bought or sold from, and without resetting counts.
+    public enum PurchadeMode {
+        BUYING("buy", "buying"),
+        SELLING("sell", "selling"),
+        BOTH("buy and sell", "buying and selling"),
+        NEITHER("neither buy nor sell", "neither buying nor selling");
+
+        public String futureVerb;
+        public String presentVerb;
+        PurchadeMode(String f, String p) {
+            this.futureVerb = f;
+            this.presentVerb = p;
+        }
+    }
 }

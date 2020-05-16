@@ -1,6 +1,10 @@
 package org.baito.stonk;
 
+import net.dv8tion.jda.api.entities.User;
+
+import javax.annotation.Nullable;
 import java.awt.*;
+import java.util.Calendar;
 
 public class EmeraldMarket extends Market {
     public EmeraldMarket() {
@@ -26,17 +30,30 @@ public class EmeraldMarket extends Market {
 
     protected void calcPrice() {
         price = (int) (Math.round(Math.min(maximum, Math.max(minimum,
-                ((Math.sin((x + offset)/width) * height + height + width) + x * tilt) * ((10 + (Math.random() * 5 - 2))/10)
+                ((Math.sin((x + offset)/width) * height + height + (500 - width)) + x * tilt) * ((10 + (Math.random() * 5 - 2))/10)
         ))));
     }
 
+    // Stock is dependant on the height and width
     @Override
     public void newStock() {
-
+        stock = (int) (Math.floor(height/2/10)*10 + Math.floor((500 - width)/2/10)*10);
     }
 
     @Override
     public String getDescription() {
         return "A unique Market, where its profit is equal to its volatility and unpredictability.";
+    }
+
+    //
+    @Override
+    public PurchadeMode purchadeMode(Calendar c) {
+        return c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ? PurchadeMode.SELLING : PurchadeMode.BUYING;
+    }
+
+    // If the day is a weekend, the Market is closed
+    @Override
+    public boolean isOpen(Calendar c, @Nullable User u) {
+        return c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY;
     }
 }

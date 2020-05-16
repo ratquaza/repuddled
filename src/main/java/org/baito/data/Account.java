@@ -4,8 +4,7 @@ import net.dv8tion.jda.api.entities.User;
 import org.baito.API.registry.SerializableRegistryEntry;
 import org.baito.Main;
 import org.baito.MasterRegistry;
-import org.baito.bevent.BEventManager;
-import org.baito.bevent.events.LevelUpEvent;
+import org.baito.API.Events;
 import org.baito.stonk.Market;
 import org.json.JSONObject;
 
@@ -103,7 +102,7 @@ public class Account implements SerializableRegistryEntry<User> {
     public void modifyXP(Modify mod, int amount) {
         experience = (int) mod(experience, mod, amount);
         if (experience >= (level + 1) * 75) {
-            BEventManager.onLevelUp(new LevelUpEvent(user, level-1, level));
+            Events.onLevelUp(user, level, level + 1);
         }
     }
     public boolean condXP(Condition con, int amount) {

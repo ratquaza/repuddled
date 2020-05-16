@@ -42,10 +42,6 @@ public class SingularRegistry<K, V extends SingularRegistryEntry<K>> {
         config = new FolderConfig(name.toUpperCase());
     }
 
-    public void batch(BatchFunction<V> action) {
-        registry.values().parallelStream().forEach(action::run);
-    }
-
     public void load() {
         for (Map.Entry<K, V> i : registry.entrySet()) {
             i.getValue().onLoad(getConfig(i.getKey()));

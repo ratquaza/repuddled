@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
+import org.baito.API.TimerManager;
 import org.baito.API.command.CommandRegistry;
 import org.baito.API.config.Config;
 import org.baito.API.events.CommandEvent;
@@ -45,6 +46,8 @@ public class Main {
         CommandRegistry.register(new EconomyCommand(), "econ", "economy", "e");
         CommandRegistry.register(new AdminCommand(), "admin");
         CommandRegistry.register(new MarketCommand(), "market", "m");
+
+        TimerManager.init();
     }
 
     public static void setChannel(Guild g, @Nullable TextChannel c) {

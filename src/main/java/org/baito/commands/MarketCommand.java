@@ -14,6 +14,7 @@ import org.baito.stonk.Market;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Map;
 
 public class MarketCommand implements Command {
@@ -26,10 +27,17 @@ public class MarketCommand implements Command {
             EmbedBuilder eb = new EmbedBuilder();
             eb.setColor(new Color(254, 200, 0)).setTitle(Math.floor(Math.random() * 10) == 0 ? "COCK MARKET" : "STONK MARKET");
 
+            Calendar nextHour = (Calendar) Main.getCalendar().clone();
+            nextHour.set(Calendar.HOUR_OF_DAY, nextHour.get(Calendar.HOUR_OF_DAY) + 1);
+
             StringBuilder open = new StringBuilder();
             for (Market i : marketRegistry.values()) {
-                if (i.canBuy(Main.getCalendar())) {
-                    open.append(":green_circle:");
+                if (i.isOpen(Main.getCalendar(), executor.getUser())) {
+                    if (i.isOpen(nextHour, executor.getUser())) {
+                        open.append(":green_circle:");
+                    } else {
+                        open.append(":yellow_circle:");
+                    }
                 } else {
                     open.append(":red_circle:");
                 }
@@ -63,9 +71,10 @@ public class MarketCommand implements Command {
             EmbedBuilder eb = new EmbedBuilder();
             eb.setColor(m.color);
             eb.setTitle(m.getKey() + " MARKET");
+            eb.addField("INFO", m.getDescription(), false);
             eb.addField("PRICE", (m.usesMaple() ? Main.maple() : Main.gold()) + " " + m.getPrice() + " " + (m.hasIncreased() ? ":small_red_triangle:" : ":small_red_triangle_down:"), false);
-            eb.addField("STATUS", "You **can" + (m.canBuy(Main.getCalendar()) ? "" : "not") + "** buy as of now.", false);
-            if (m.canBuy(Main.getCalendar())) {
+            eb.addField("STATUS", "Currently " + (m.isOpen(Main.getCalendar(), null) ? "open for " + m.purchadeMode(Main.getCalendar()).presentVerb : "closed."), false);
+            if (m.isOpen(Main.getCalendar(), null)) {
                 eb.addField("STOCK", "**" + m.getStock() + "** " + m.getName() + "s available.", false);
             }
             eb.addField("DATA", "You own **" + account.getMarket(m) + " " + m.getName() + "s**\n" + m.getHighest() + " high " + m.getLowest() + " low " + m.average() + " avg", false);

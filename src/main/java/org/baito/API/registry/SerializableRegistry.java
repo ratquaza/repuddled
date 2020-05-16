@@ -3,6 +3,7 @@ package org.baito.API.registry;
 import org.baito.API.config.FolderConfig;
 import org.json.JSONException;
 import java.io.File;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,15 +25,15 @@ public class SerializableRegistry<K, V extends SerializableRegistryEntry<K>> {
         this.defaultCreator = k;
     }
 
+    public Collection<V> values() {
+        return registry.values();
+    }
+
     // Register an item
     public void register(boolean override, V object) {
         if (!registry.containsKey(object.getKey()) || override) {
             registry.put(object.getKey(), object);
         }
-    }
-
-    public void batch(BatchFunction<V> action) {
-        registry.values().parallelStream().forEach(action::run);
     }
 
     // Get an item, or create a new one using the DefaultAction

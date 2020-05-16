@@ -1,15 +1,13 @@
 package org.baito.stonk;
 
 import net.dv8tion.jda.api.entities.User;
-import org.baito.Main;
 import org.baito.MasterRegistry;
 import org.baito.data.Account;
 import org.baito.data.Flag;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
+import javax.annotation.Nullable;
 import java.awt.*;
-import java.util.Arrays;
+import java.util.Calendar;
 
 public class DragonMarket extends Market {
     public DragonMarket() {
@@ -39,9 +37,10 @@ public class DragonMarket extends Market {
         ))));
     }
 
+    // 50 to 150, with intervals of 10
     @Override
     public void newStock() {
-        stock = (int) (100 + (10 * Math.floor(Math.random() * 11)));
+        stock = (int) (50 + (10 * Math.floor(Math.random() * 11)));
     }
 
     @Override
@@ -49,9 +48,22 @@ public class DragonMarket extends Market {
         return "A subscription based Market, that profits with Maples.";
     }
 
+    // Every hour that is a multiple of 8: Selling and Buying Dragons
+    // Otherwise, buying Dragons
     @Override
-    public boolean canBuy(User u) {
-        Account ac = (Account) MasterRegistry.getSerializableRegistry(Account.class).get(u);
-        return ac.getFlag(Flag.DINO_SUBSCRIPTION);
+    public PurchadeMode purchadeMode(Calendar c) {
+        return c.get(Calendar.HOUR_OF_DAY) % 8 == 0 ? PurchadeMode.BOTH : PurchadeMode.BUYING;
+    }
+
+    // If the day is Thursday or Friday, the Market is open
+    // Also, if the player has the dragon pass or not.
+    @Override
+    public boolean isOpen(Calendar c, @Nullable User u) {
+        boolean user = true;
+        if (u != null) {
+            Account ac = (Account) MasterRegistry.getSerializableRegistry(Account.class).get(u);
+            user = ac.getFlag(Flag.DRAGON_SUBSCRIPTION);
+        }
+        return user && c.get(Calendar.DAY_OF_WEEK) >= Calendar.THURSDAY && c.get(Calendar.DAY_OF_WEEK) <= Calendar.FRIDAY;
     }
 }
