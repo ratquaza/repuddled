@@ -165,14 +165,14 @@ public class Account implements SerializableRegistryEntry<User> {
             level = leveldat.getInt("level");
         }
 
-        for (Market i : (Collection<Market>) MasterRegistry.getSingularRegistry(Market.class).values()) {
+        for (Market i : MasterRegistry.marketRegistry().values()) {
             marketItems.put(i, 0);
         }
 
         if (j.has("marketData")) {
             JSONObject marketDataJ = j.getJSONObject("marketData");
             for (String i : marketDataJ.keySet()) {
-                marketItems.put((Market) MasterRegistry.getSingularRegistry(Market.class).get(i), marketDataJ.getInt(i));
+                marketItems.put(MasterRegistry.marketRegistry().get(i), marketDataJ.getInt(i));
             }
         }
 

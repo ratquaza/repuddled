@@ -3,6 +3,12 @@ package org.baito.casino.games.multiplayer;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.User;
+import org.baito.API.registry.SerializableRegistry;
+import org.baito.Main;
+import org.baito.MasterRegistry;
+import org.baito.data.Account;
+import org.baito.data.Modify;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -16,19 +22,21 @@ public class TicTacToe extends MPCasinoGame {
 
     private Value[][] map = new Value[3][3];
 
+    private static SerializableRegistry<User, Account> account = MasterRegistry.accountRegistry();
+
     public TicTacToe() {
-        super("Tic Tac Toe", 0, 2, 2);
+        super("TicTacToe", 0, 2, 2);
     }
 
     private String board() {
         StringBuilder sb = new StringBuilder();
         sb.append(":black_small_square: :regional_indicator_a: :regional_indicator_b: :regional_indicator_c:\n");
-        for (int row = 0; row < map.length; row++) {
-            sb.append(row == 0 ? ":one:" : row == 1 ? ":two:" : ":three:").append(" ");
-            for (int col = 0; col < map[row].length; col++) {
-                sb.append(map[row][col].s + " ");
+        for (int col = 0; col < map.length; col++) {
+            sb.append(col == 0 ? ":one:" : col == 1 ? ":two:" : ":three:").append(" ");
+            for (int row = 0; row < map[col].length; row++) {
+                sb.append(map[col][row].s + " ");
             }
-            if (row < 2) {
+            if (col < 2) {
                 sb.append("\n");
             }
         }
@@ -61,20 +69,88 @@ public class TicTacToe extends MPCasinoGame {
 
     @Override
     public void turn(Member m, MessageChannel channel, String[] args) {
+        if (args.length < 1) {
+            return;
+        }
 
-        xTurn = !xTurn;
+        int row;
+        int col;
+        String cord = args[0].toUpperCase();
+
+        if (cord.contains("A") || cord.contains("B") || cord.contains("C")) {
+            col = cord.contains("A") ? 0 : cord.contains("B") ? 1 : 2;
+            if (cord.contains("1") || cord.contains("2") || cord.contains("3")) {
+                row = cord.contains("1") ? 0 : cord.contains("2") ? 1 : 2;
+                if (map[row][col] == Value.BLANK) {
+                    map[row][col] = xTurn ? Value.X : Value.O;
+                } else {
+                    channel.sendMessage("That spot is already taken!").queue();
+                    return;
+                }
+            } else {
+                return;
+            }
+        } else {
+            return;
+        }
+        if (checkWin()) {
+            channel.sendMessage(new EmbedBuilder()
+                    .setTitle(getCurrentTurn().getEffectiveName().toUpperCase() + " HAS WON!")
+                    .setDescription(board())
+                    .addField("", getCurrentTurn().getEffectiveName() + " wins " + (useMaple() ? Main.maple() : Main.gold()) + bet, false)
+                    .setColor(xTurn ? Color.RED : Color.BLUE).build()).queue();
+            if (useMaple()) {
+                account.get(getCurrentTurn().getUser()).modifyMaple(Modify.ADD, pot);
+            } else {
+                account.get(getCurrentTurn().getUser()).modifyGold(Modify.ADD, pot);
+            }
+            endGame(channel);
+        } else {
+            if (checkEmpty()) {
+                xTurn = !xTurn;
+                channel.sendMessage(new EmbedBuilder()
+                        .setTitle(getCurrentTurn().getEffectiveName().toUpperCase() + "'S TURN")
+                        .setDescription(board())
+                        .setColor(xTurn ? Color.RED : Color.BLUE).build()).queue();
+            } else {
+                channel.sendMessage(new EmbedBuilder()
+                        .setTitle("A TIE!")
+                        .setDescription(board())
+                        .setColor(Color.WHITE).build()).queue();
+                account.get(x.getUser()).modifyGold(Modify.ADD, bet);
+                account.get(o.getUser()).modifyGold(Modify.ADD, bet);
+                endGame(channel);
+            }
+        }
     }
 
     private boolean checkWin() {
-        boolean win = false;
-        for (int row = 0; row < map.length && !win; row++) {
-            for (int col = 0; col < map[row].length  && !win; col++) {
-                if (map[row][col] != Value.BLANK) {
-
-                }
+        for (int col = 0; col < map.length; col++) {
+            if (map[col][0] == map[col][1] && map[col][0] == map[col][2] && map[col][0] != Value.BLANK) {
+                return true;
             }
         }
-        return win;
+        for (int row = 0; row < map.length; row++) {
+            if (map[0][row] == map[1][row] && map[0][row] == map[2][row] && map[0][row] != Value.BLANK) {
+                return true;
+            }
+        }
+        if (map[0][0] == map[1][1] && map[0][0] == map[2][2] && map[0][0] != Value.BLANK) {
+            return true;
+        }
+        if (map[0][2] == map[1][1] && map[0][2] == map[2][0] && map[0][2] != Value.BLANK) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkEmpty() {
+        for (int col = 0; col < 3; col++) {
+            for (int row = 0; row < 3; row++) {
+                if (map[col][row] == Value.BLANK) return true;
+            }
+        }
+        return false;
     }
 
     @Override

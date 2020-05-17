@@ -45,9 +45,10 @@ public class RubyMarket extends Market {
         return "A fiery and volatile Market, unpredictable at best.";
     }
 
+    // Every 6 hours, switch between neither and both
     @Override
     public PurchadeMode purchadeMode(Calendar c) {
-        return c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ? PurchadeMode.SELLING : PurchadeMode.BUYING;
+        return c.get(Calendar.HOUR_OF_DAY)/6 % 2 == 0 ? PurchadeMode.BOTH : PurchadeMode.NEITHER;
     }
 
     // If the day is a weekend, the Market is closed

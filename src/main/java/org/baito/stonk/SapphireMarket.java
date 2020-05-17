@@ -45,9 +45,13 @@ public class SapphireMarket extends Market {
         return "A consistent and trustworthy Market.";
     }
 
+    // Monday: Selling Sapphires
+    // Tuesday - Thursday: No options
+    // Firday: Buying Sapphires
     @Override
     public PurchadeMode purchadeMode(Calendar c) {
-        return c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ? PurchadeMode.SELLING : PurchadeMode.BUYING;
+        return c.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY ? PurchadeMode.SELLING :
+                c.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY ? PurchadeMode.BUYING : PurchadeMode.NEITHER;
     }
 
     // If the day is a weekend, the Market is closed

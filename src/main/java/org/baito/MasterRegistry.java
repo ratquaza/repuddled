@@ -1,5 +1,6 @@
 package org.baito;
 
+import net.dv8tion.jda.api.entities.User;
 import org.baito.API.registry.SerializableRegistry;
 import org.baito.API.registry.SingularRegistry;
 import org.baito.data.Account;
@@ -7,6 +8,7 @@ import org.baito.stonk.*;
 
 import java.util.HashMap;
 
+@SuppressWarnings("unchecked")
 public class MasterRegistry {
     private static HashMap<Class, SerializableRegistry> serializableRegistries = new HashMap<>();
     private static HashMap<Class, SingularRegistry> singularRegistries = new HashMap<>();
@@ -37,13 +39,21 @@ public class MasterRegistry {
         }
     }
 
+    public static SerializableRegistry<User, Account> accountRegistry() {
+        return serializableRegistries.get(Account.class);
+    }
+
+    public static SingularRegistry<String, Market> marketRegistry() {
+        return singularRegistries.get(Market.class);
+    }
+
     static {
         serializableRegistries.put(Account.class, new SerializableRegistry<>("ACCOUNTS",
                 (f, j) -> new Account().fromJson(f, j),
                 Account::new));
         singularRegistries.put(Market.class, new SingularRegistry<String, Market>("MARKETS"));
 
-        MasterRegistry.getSingularRegistry(Market.class).register(new EchidnaMarket(), new RubyMarket(), new SapphireMarket(), new EmeraldMarket(), new DragonMarket());
+        marketRegistry().register(new EchidnaMarket(), new RubyMarket(), new SapphireMarket(), new EmeraldMarket(), new DragonMarket());
 
         MasterRegistry.load();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {

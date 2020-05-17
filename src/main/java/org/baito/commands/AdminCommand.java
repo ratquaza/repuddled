@@ -43,7 +43,7 @@ public class AdminCommand implements Command {
                 if (!Checks.assertUserFound(possible, channel)) return;
 
                 m = possible.get(0);
-                Account account = (Account) MasterRegistry.getSerializableRegistry(Account.class).get(m.getUser());
+                Account account = MasterRegistry.accountRegistry().get(m.getUser());
 
                 EmbedBuilder eb = new EmbedBuilder();
                 eb.setTitle(m.getUser().getName().toUpperCase() +

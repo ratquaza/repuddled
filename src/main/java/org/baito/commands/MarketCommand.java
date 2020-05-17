@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class MarketCommand implements Command {
 
-    private static SingularRegistry<String, Market> marketRegistry = MasterRegistry.getSingularRegistry(Market.class);
+    private static SingularRegistry<String, Market> marketRegistry = MasterRegistry.marketRegistry();
 
     @Override
     public void execute(Member executor, String[] arguments, MessageChannel channel, Message message) {
@@ -66,7 +66,7 @@ public class MarketCommand implements Command {
 
             Market m = possibles.get(0);
 
-            Account account = (Account) MasterRegistry.getSerializableRegistry(Account.class).get(executor.getUser());
+            Account account = MasterRegistry.accountRegistry().get(executor.getUser());
 
             EmbedBuilder eb = new EmbedBuilder();
             eb.setColor(m.color);

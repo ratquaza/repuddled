@@ -32,7 +32,7 @@ public abstract class SPCasinoGame {
     }
 
     public final String name() {
-        return name;
+        return name.toUpperCase();
     }
 
     public final void endGame(MessageChannel channel) {

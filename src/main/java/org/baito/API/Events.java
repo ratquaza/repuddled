@@ -17,7 +17,7 @@ import java.util.Collection;
 public class Events {
 
     public static void onLevelUp(User e, int oldLevel, int newLevel) {
-        Account account = (Account) MasterRegistry.getSerializableRegistry(Account.class).get(e);
+        Account account = MasterRegistry.accountRegistry().get(e);
         account.modifyLevel(Modify.ADD, 1);
         account.modifyXP(Modify.SUBTRACT, account.getLevel() * 75);
 
@@ -52,9 +52,9 @@ public class Events {
         StringBuilder forSelling = new StringBuilder();
         StringBuilder closingSoon = new StringBuilder();
 
-        SerializableRegistry<User, Account> accounts = MasterRegistry.getSerializableRegistry(Account.class);
+        SerializableRegistry<User, Account> accounts = MasterRegistry.accountRegistry();
         // Market Calculation
-        for (Market i : (Collection<Market>) MasterRegistry.getSingularRegistry(Market.class).values()) {
+        for (Market i : MasterRegistry.marketRegistry().values()) {
             // If the Market is open right now
             if (i.isOpen(now, null)) {
                 // and the Market was closed before
@@ -65,7 +65,11 @@ public class Events {
                     closingSoon.append(":yellow_circle: " + i.getName() + " Market\n");
                 }
             }
-            // If the Market is closed right now, but it was open just an hour ago
+            // If the Market is closed right now, but it was open just an hour ago.
+            // Reset the player count for the Market.
+            // This does not take into account purchase mode, but opening and closing.
+
+            // If a Market opens and closes at two different times, each closing will count as a reset.
             else if (i.isOpen(previousTime, null) && !i.isOpen(now, null)) {
                 accounts.values().parallelStream().forEach(a -> a.modifyMarket(i, Modify.SET, 0));
                 forSelling.append(":red_circle: " + i.getName() + " Market\n");

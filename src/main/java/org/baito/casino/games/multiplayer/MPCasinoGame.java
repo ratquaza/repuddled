@@ -8,13 +8,13 @@ import net.dv8tion.jda.api.entities.Member;
 public abstract class MPCasinoGame{
 
     // Game name
-    protected final String name;
+    public final String name;
     // Minimum level a player must be
-    protected final int levelMinimum;
+    public final int levelMinimum;
     // Maximum players
-    protected final int maxPLayers;
+    public final int maxPLayers;
     // Minimum players
-    protected final int minPlayers;
+    public final int minPlayers;
 
     // Minimum bet players need
     protected int bet;
@@ -50,7 +50,7 @@ public abstract class MPCasinoGame{
     }
 
     public final String name() {
-        return name;
+        return name.toUpperCase();
     }
 
     public final void endGame(MessageChannel channel) {

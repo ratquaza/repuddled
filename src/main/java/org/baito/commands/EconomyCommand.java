@@ -13,7 +13,7 @@ import java.awt.*;
 public class EconomyCommand implements Command {
     @Override
     public void execute(Member executor, String[] arguments, MessageChannel channel, Message message) {
-        Account account = (Account) MasterRegistry.getSerializableRegistry(Account.class).get(executor.getUser());
+        Account account = MasterRegistry.accountRegistry().get(executor.getUser());
         Color c = executor.getColor() == null ? new Color(254, 254, 254) : executor.getColor();
         channel.sendMessage(new EmbedBuilder().setTitle(executor.getEffectiveName().toUpperCase() + "'S ACCOUNT")
                 .setColor(c).addField("BALANCE", account.balance(), false)

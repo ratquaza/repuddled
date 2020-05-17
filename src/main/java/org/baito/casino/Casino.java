@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import org.baito.MasterRegistry;
 import org.baito.Main;
 import org.baito.casino.games.multiplayer.MPCasinoGame;
+import org.baito.casino.games.multiplayer.TicTacToe;
 import org.baito.casino.games.singeplayer.SPCasinoGame;
 import org.baito.casino.games.singeplayer.Blackjack;
 import org.baito.casino.games.singeplayer.Slots;
@@ -25,7 +26,7 @@ public class Casino {
     private static HashMap<Member, MPCasinoGame> MPRunning = new HashMap<>();
 
     public static void registerSPGame(SPCasinoGame game) {
-        SPRegistry.put(game.name(), game);
+        SPRegistry.put(game.name().toUpperCase(), game);
     }
 
     public static void registerSPGames(SPCasinoGame... games) {
@@ -37,7 +38,7 @@ public class Casino {
     public static void startSPGame(Member m, SPCasinoGame game, MessageChannel channel, int bet, boolean isMaple) {
         SPCasinoGame g = game.newInstance();
         SPRunning.put(m, g);
-        Account account = (Account) MasterRegistry.getSerializableRegistry(Account.class).get(m.getUser());
+        Account account = MasterRegistry.accountRegistry().get(m.getUser());
         if (isMaple) {
             account.modifyMaple(Modify.SUBTRACT, bet);
         } else {
@@ -50,13 +51,13 @@ public class Casino {
     }
 
     public static SPCasinoGame getRegisteredSPGame(String name) {
-        return SPRegistry.getOrDefault(name, null);
+        return SPRegistry.getOrDefault(name.toUpperCase(), null);
     }
 
     public static void endSPGame(Member m, MessageChannel channel) {
         SPCasinoGame rg = SPRunning.get(m);
         channel.sendMessage("x" + rg.getMultiplier() + " Multiplier, winning **" + (rg.useMaple() ? Main.maple() : Main.gold()) + " " + ((int)Math.round(rg.getBet() * rg.getMultiplier())) + "**").queue();
-        Account account = (Account) MasterRegistry.getSerializableRegistry(Account.class).get(m.getUser());
+        Account account = MasterRegistry.accountRegistry().get(m.getUser());
         if (rg.useMaple()) {
             account.modifyMaple(Modify.ADD, (int) Math.round(rg.getBet() * rg.getMultiplier()));
         } else {
@@ -79,6 +80,53 @@ public class Casino {
         }
     }
 
+    public static void registerMPGame(MPCasinoGame game) {
+        MPRegistry.put(game.name().toUpperCase(), game);
+    }
+
+    public static void registerMPGames(MPCasinoGame... games) {
+        for (MPCasinoGame i : games) {
+            registerMPGame(i);
+        }
+    }
+
+    public static void startMPGame(MPCasinoGame game, MessageChannel channel, int bet, boolean isMaple, Member... members) {
+        MPCasinoGame g = game.newInstance();
+
+        for (Member m : members) {
+            MPRunning.put(m, g);
+            Account account = MasterRegistry.accountRegistry().get(m.getUser());
+            if (isMaple) {
+                account.modifyMaple(Modify.SUBTRACT, bet);
+            } else {
+                account.modifyGold(Modify.SUBTRACT, bet);
+            }
+        }
+
+        channel.sendMessage(new EmbedBuilder().setColor(new Color(255, 200, 0))
+                .setDescription("**" + game.name() + " Game** - " + (isMaple ? Main.maple() : Main.gold()) + " " + bet).build()).queue();
+        g.setValues(bet, isMaple, members);
+        g.setup(channel);
+    }
+
+    public static MPCasinoGame getRegisteredMPGame(String name) {
+        return MPRegistry.getOrDefault(name.toUpperCase(), null);
+    }
+
+    public static Collection<MPCasinoGame> multiplayerGames() {
+        return MPRegistry.values();
+    }
+
+    public static boolean hasMPGame(Member m) {
+        return MPRunning.containsKey(m);
+    }
+
+    public static void parseMPTurn(Member m, MessageChannel channel, String[] args) {
+        if (MPRunning.containsKey(m) && MPRunning.get(m).getCurrentTurn().equals(m)) {
+            MPRunning.get(m).turn(m, channel, args);
+        }
+    }
+
     public static void endMPGame(Member... members) {
         for (Member i : members) {
             MPRunning.remove(i);
@@ -87,5 +135,6 @@ public class Casino {
 
     static {
         registerSPGames(new Slots(), new Blackjack());
+        registerMPGames(new TicTacToe());
     }
 }

@@ -45,10 +45,10 @@ public class EmeraldMarket extends Market {
         return "A unique Market, where its profit is equal to its volatility and unpredictability.";
     }
 
-    //
+    // Same as Echidnas
     @Override
     public PurchadeMode purchadeMode(Calendar c) {
-        return c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ? PurchadeMode.SELLING : PurchadeMode.BUYING;
+        return c.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY ? PurchadeMode.SELLING : PurchadeMode.BUYING;
     }
 
     // If the day is a weekend, the Market is closed

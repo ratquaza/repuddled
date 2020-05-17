@@ -61,7 +61,7 @@ public class DragonMarket extends Market {
     public boolean isOpen(Calendar c, @Nullable User u) {
         boolean user = true;
         if (u != null) {
-            Account ac = (Account) MasterRegistry.getSerializableRegistry(Account.class).get(u);
+            Account ac = MasterRegistry.accountRegistry().get(u);
             user = ac.getFlag(Flag.DRAGON_SUBSCRIPTION);
         }
         return user && c.get(Calendar.DAY_OF_WEEK) >= Calendar.THURSDAY && c.get(Calendar.DAY_OF_WEEK) <= Calendar.FRIDAY;
