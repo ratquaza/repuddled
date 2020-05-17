@@ -16,7 +16,8 @@ public class SingularRegistry<K, V extends SingularRegistryEntry<K>> {
         registry.put(item.getKey(), item);
     }
 
-    public void register(V... item) {
+    @SafeVarargs
+    public final void register(V... item) {
         for (V i : item) {
             register(i);
         }

@@ -38,7 +38,7 @@ public final class TimerManager {
                 Calendar curr = (Calendar) Main.getCalendar().clone();
                 Events.onHourly(curr);
             }
-        }, 0, new Duration().setHours(1).toMilliseconds());
+        }, duration.toMilliseconds(), new Duration().setHours(1).toMilliseconds());
     }
 
 }

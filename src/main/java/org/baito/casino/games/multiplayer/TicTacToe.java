@@ -3,15 +3,11 @@ package org.baito.casino.games.multiplayer;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.User;
-import org.baito.API.registry.SerializableRegistry;
 import org.baito.Main;
-import org.baito.MasterRegistry;
-import org.baito.data.Account;
-import org.baito.data.Modify;
-
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class TicTacToe extends MPCasinoGame {
 
@@ -20,9 +16,9 @@ public class TicTacToe extends MPCasinoGame {
 
     private boolean xTurn;
 
-    private Value[][] map = new Value[3][3];
+    private HashMap<Member, Double> percentages;
 
-    private static SerializableRegistry<User, Account> account = MasterRegistry.accountRegistry();
+    private Value[][] map = new Value[3][3];
 
     public TicTacToe() {
         super("TicTacToe", 0, 2, 2);
@@ -56,6 +52,7 @@ public class TicTacToe extends MPCasinoGame {
 
     @Override
     public void setup(MessageChannel channel) {
+        percentages = new HashMap<>();
         xTurn = Math.floor(Math.random() * 2) == 0;
         for (int i = 0; i < map.length; i++) {
             Arrays.fill(map[i], Value.BLANK);
@@ -70,6 +67,10 @@ public class TicTacToe extends MPCasinoGame {
     @Override
     public void turn(Member m, MessageChannel channel, String[] args) {
         if (args.length < 1) {
+            return;
+        }
+
+        if ((xTurn && m.equals(o)) || (!xTurn && m.equals(x))) {
             return;
         }
 
@@ -97,13 +98,9 @@ public class TicTacToe extends MPCasinoGame {
             channel.sendMessage(new EmbedBuilder()
                     .setTitle(getCurrentTurn().getEffectiveName().toUpperCase() + " HAS WON!")
                     .setDescription(board())
-                    .addField("", getCurrentTurn().getEffectiveName() + " wins " + (useMaple() ? Main.maple() : Main.gold()) + bet, false)
                     .setColor(xTurn ? Color.RED : Color.BLUE).build()).queue();
-            if (useMaple()) {
-                account.get(getCurrentTurn().getUser()).modifyMaple(Modify.ADD, pot);
-            } else {
-                account.get(getCurrentTurn().getUser()).modifyGold(Modify.ADD, pot);
-            }
+            percentages.put(xTurn ? x : o, 1.0);
+            percentages.put(xTurn ? o : x, 0.0);
             endGame(channel);
         } else {
             if (checkEmpty()) {
@@ -117,8 +114,8 @@ public class TicTacToe extends MPCasinoGame {
                         .setTitle("A TIE!")
                         .setDescription(board())
                         .setColor(Color.WHITE).build()).queue();
-                account.get(x.getUser()).modifyGold(Modify.ADD, bet);
-                account.get(o.getUser()).modifyGold(Modify.ADD, bet);
+                percentages.put(x, 0.5);
+                percentages.put(o, 0.5);
                 endGame(channel);
             }
         }
@@ -153,9 +150,14 @@ public class TicTacToe extends MPCasinoGame {
         return false;
     }
 
-    @Override
-    public Member getCurrentTurn() {
+    private Member getCurrentTurn() {
         return xTurn ? x : o;
+    }
+
+    @Nullable
+    @Override
+    public HashMap<Member, Double> getPotPercentage() {
+        return percentages;
     }
 
     @Override

@@ -3,6 +3,8 @@ package org.baito.casino;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.User;
+import org.baito.API.registry.SerializableRegistry;
 import org.baito.MasterRegistry;
 import org.baito.Main;
 import org.baito.casino.games.multiplayer.MPCasinoGame;
@@ -16,6 +18,7 @@ import org.baito.data.Modify;
 import java.awt.*;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Casino {
 
@@ -54,16 +57,16 @@ public class Casino {
         return SPRegistry.getOrDefault(name.toUpperCase(), null);
     }
 
-    public static void endSPGame(Member m, MessageChannel channel) {
-        SPCasinoGame rg = SPRunning.get(m);
+    public static void endSPGame(Member winner, MessageChannel channel) {
+        SPCasinoGame rg = SPRunning.get(winner);
         channel.sendMessage("x" + rg.getMultiplier() + " Multiplier, winning **" + (rg.useMaple() ? Main.maple() : Main.gold()) + " " + ((int)Math.round(rg.getBet() * rg.getMultiplier())) + "**").queue();
-        Account account = MasterRegistry.accountRegistry().get(m.getUser());
+        Account account = MasterRegistry.accountRegistry().get(winner.getUser());
         if (rg.useMaple()) {
             account.modifyMaple(Modify.ADD, (int) Math.round(rg.getBet() * rg.getMultiplier()));
         } else {
             account.modifyGold(Modify.ADD, (int) Math.round(rg.getBet() * rg.getMultiplier()));
         }
-        SPRunning.remove(m);
+        SPRunning.remove(winner);
     }
 
     public static Collection<SPCasinoGame> singleplayerGames() {
@@ -122,14 +125,56 @@ public class Casino {
     }
 
     public static void parseMPTurn(Member m, MessageChannel channel, String[] args) {
-        if (MPRunning.containsKey(m) && MPRunning.get(m).getCurrentTurn().equals(m)) {
+        if (MPRunning.containsKey(m)) {
             MPRunning.get(m).turn(m, channel, args);
         }
     }
 
-    public static void endMPGame(Member... members) {
+    public static void endMPGame(MessageChannel channel, Member... members) {
+        MPCasinoGame game = null;
         for (Member i : members) {
+            if (game == null) game = MPRunning.get(i);
             MPRunning.remove(i);
+        }
+
+        SerializableRegistry<User, Account> registry = MasterRegistry.accountRegistry();
+        MPCasinoGame finalGame = game;
+        if (game.getWinnings() != null || game.getPotPercentage() != null || game.getMultipliers() != null) {
+            EmbedBuilder eb = new EmbedBuilder().setColor(new Color(255, 180, 0)).setTitle("THE FINAL WINNINGS");
+            StringBuilder sb = new StringBuilder();
+            if (game.getWinnings() != null) {
+                game.getWinnings().entrySet().parallelStream().forEach(e -> {
+                    sb.append("**" + e.getKey().getEffectiveName() + ":** " + (finalGame.useMaple() ? Main.maple() : Main.gold()) + e.getValue() + "\n");
+                    if (finalGame.useMaple()) {
+                        registry.get(e.getKey().getUser()).modifyMaple(Modify.ADD, e.getValue());
+                    } else {
+                        registry.get(e.getKey().getUser()).modifyGold(Modify.ADD, e.getValue());
+                    }
+                });
+                channel.sendMessage(eb.addField("TOTAL WON", sb.toString(), false).build()).queue();
+            } else if (game.getMultipliers() != null) {
+                game.getMultipliers().entrySet().parallelStream().forEach(e -> {
+                    sb.append("**" + e.getKey().getEffectiveName() + ":** x" + e.getValue() +
+                            " -> " + (finalGame.useMaple() ? Main.maple() : Main.gold()) + (finalGame.getBet() * e.getValue()) + "\n");
+                    if (finalGame.useMaple()) {
+                        registry.get(e.getKey().getUser()).modifyMaple(Modify.ADD, (int) (finalGame.getBet() * e.getValue()));
+                    } else {
+                        registry.get(e.getKey().getUser()).modifyGold(Modify.ADD, (int) (finalGame.getBet() * e.getValue()));
+                    }
+                });
+                channel.sendMessage(eb.addField("MULTIPLIERS", sb.toString(), false).build()).queue();
+            } else if (game.getPotPercentage() != null) {
+                game.getPotPercentage().entrySet().parallelStream().forEach(e -> {
+                    sb.append("**" + e.getKey().getEffectiveName() + ":** " + (e.getValue()*100) + "% -> "
+                            + (finalGame.useMaple() ? Main.maple() : Main.gold()) + (finalGame.getPot() * e.getValue()) + "\n");
+                    if (finalGame.useMaple()) {
+                        registry.get(e.getKey().getUser()).modifyMaple(Modify.ADD, (int) (finalGame.getPot() * e.getValue()));
+                    } else {
+                        registry.get(e.getKey().getUser()).modifyGold(Modify.ADD, (int) (finalGame.getPot() * e.getValue()));
+                    }
+                });
+                channel.sendMessage(eb.addField("POT %", sb.toString(), false).build()).queue();
+            }
         }
     }
 

@@ -4,10 +4,13 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.User;
 import org.baito.API.command.Checks;
 import org.baito.API.command.Command;
 import org.baito.API.command.CommandRegistry;
 import org.baito.API.image.ImageUtils;
+import org.baito.API.registry.SerializableRegistry;
+import org.baito.Main;
 import org.baito.MasterRegistry;
 import org.baito.casino.Casino;
 import org.baito.casino.games.multiplayer.MPCasinoGame;
@@ -161,10 +164,48 @@ public class CasinoCommand implements Command {
                         return;
                     }
 
-                    Casino.startMPGame(l.game, channel, l.bet, l.useMaple, l.players.toArray(new Member[0]));
+                    SerializableRegistry<User, Account> registry = MasterRegistry.accountRegistry();
+                    ArrayList<Member> toRemove = new ArrayList<>();
+
+                    // Ensure all players have enough money
+                    for (Member i : l.players) {
+                        Account a = registry.get(i.getUser());
+                        if (!((l.useMaple && a.condMaple(Condition.EQUALGREATER, l.bet)) || (!l.useMaple && a.condGold(Condition.EQUALGREATER, l.bet)))) {
+                            toRemove.add(i);
+                        }
+                    }
+
+                    // Everyone needs to be kicked
+                    if (toRemove.size() == l.players.size()) {
+                        channel.sendMessage(eb.setAuthor("Could not start a lobby, no player has enough funds of " + (l.useMaple ? Main.maple() : Main.gold()) + l.bet + ".")
+                                .build()).queue();
+                        return;
+                    }
+
+                    // Lobby doesn't have enough to reach minimum after kicking
+                    if (l.players.size() - toRemove.size() < l.game.minPlayers) {
+                        channel.sendMessage(eb.setAuthor("Could not start a lobby, not enough players. Did some players have enough funds before starting?")
+                                .build()).queue();
+                        return;
+                    }
+
+                    // Remove lobby from HashMap
                     for (Member i : l.players) {
                         lobbies.remove(i);
                     }
+
+                    // Remove all players that can't play
+                    l.players.remove(toRemove);
+
+                    // Check if host was removed, and assign new host
+                    // not really needed, but good to do
+                    if (toRemove.contains(l.host)) {
+                        l.host = l.players.get((int)(Math.random() * l.players.size()));
+                    }
+
+                    // Start the game
+                    Casino.startMPGame(l.game, channel, l.bet, l.useMaple, l.players.toArray(new Member[0]));
+
                     // Joining a multiplayer game
                 } else if (arguments[0].equalsIgnoreCase("join")) {
                     if (arguments.length < 2) {
@@ -184,7 +225,7 @@ public class CasinoCommand implements Command {
                     m = possible.get(0);
                     Lobby l;
 
-                    if (!lobbies.containsKey(m)) {
+                    if (!lobbies.containsKey(m) || !lobbies.get(m).host.equals(m)) {
                         channel.sendMessage(eb.setAuthor(m.getEffectiveName() + " is not hosting a game.").build()).queue();
                         return;
                     }
@@ -198,6 +239,22 @@ public class CasinoCommand implements Command {
                         channel.sendMessage(eb.setAuthor(m.getEffectiveName() + "'s lobby is full.").build()).queue();
                         return;
                     }
+                    // Exiting a lobby
+                } else if (arguments[0].equalsIgnoreCase("leave")) {
+                    if (!lobbies.containsKey(executor)) {
+                        channel.sendMessage(eb.setAuthor("You are not in a lobbyy.").build()).queue();
+                        return;
+                    }
+                    Lobby l = lobbies.get(executor);
+                    l.players.remove(executor);
+                    lobbies.remove(executor);
+                    if (l.players.size() > 0) {
+                        if (l.host.equals(executor)) {
+                            l.host = l.players.get((int)(Math.random() * l.players.size()));
+                        }
+                    }
+
+                    channel.sendMessage(eb.setAuthor("Successfully left the lobby.").setColor(Color.GREEN).build()).queue();
                 }
             }
         }
@@ -214,6 +271,8 @@ public class CasinoCommand implements Command {
         public Lobby(Member host, MPCasinoGame game, int bet, boolean useMaple) {
             this.host = host;
             this.game = game;
+            this.bet = bet;
+            this.useMaple = useMaple;
             players.add(host);
         }
 
