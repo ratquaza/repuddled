@@ -1,5 +1,7 @@
 package org.baito;
 
+import org.baito.casino.Casino;
+
 import java.util.Scanner;
 
 public class Input extends Thread {
@@ -14,6 +16,7 @@ public class Input extends Thread {
             String input = scanner.nextLine();
 
             if (input.equalsIgnoreCase("exit") || input.equalsIgnoreCase("stop")) {
+                Casino.onPuddleClose();
                 System.exit(0);
             }
         }

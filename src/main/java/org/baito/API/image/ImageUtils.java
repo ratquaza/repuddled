@@ -79,10 +79,14 @@ public class ImageUtils {
         }
     }
 
-    public static void embedImage(MessageChannel channel, BufferedImage image, EmbedBuilder builder, String name, String format) {
+    public static void embedImage(MessageChannel channel, BufferedImage image, EmbedBuilder builder, boolean thumbnail, String name, String format) {
         if (image != null) {
             try {
-                builder.setThumbnail("attachment://" + name + "." + format);
+                if (thumbnail) {
+                    builder.setThumbnail("attachment://" + name + "." + format);
+                } else {
+                    builder.setImage("attachment://" + name + "." + format);
+                }
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 try {
                     ImageIO.write(image, format, bytes);

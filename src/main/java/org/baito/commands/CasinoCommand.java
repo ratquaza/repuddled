@@ -27,7 +27,7 @@ public class CasinoCommand implements Command {
 
     @Override
     public void execute(Member executor, String[] arguments, MessageChannel channel, Message message) {
-        if (arguments.length == 0) {
+        if (arguments.length == 0 && !Casino.hasSPGame(executor) && !Casino.hasMPGame(executor)) {
             EmbedBuilder eb = new EmbedBuilder();
 
             eb.setTitle("**CASINO**");
@@ -53,7 +53,7 @@ public class CasinoCommand implements Command {
                     ".cas [query] | **Use an option in a running game.**", false);
 
             BufferedImage img = ImageUtils.getImage("CASINOICON.png");
-            ImageUtils.embedImage(channel, img, eb, "CASINOICON", "png");
+            ImageUtils.embedImage(channel, img, eb, true, "CASINOICON", "png");
         } else {
             if (Casino.hasSPGame(executor) || Casino.hasMPGame(executor)) {
                 if (Casino.hasSPGame(executor)) {

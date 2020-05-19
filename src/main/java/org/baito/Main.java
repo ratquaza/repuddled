@@ -137,6 +137,10 @@ public class Main {
         return ":maple_leaf:";
     }
 
+    public static String curr(boolean useMaple) {
+        return useMaple ? maple() : gold();
+    }
+
     public static Calendar getCalendar() {
         c.setTime(new Date());
         return c;

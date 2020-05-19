@@ -85,7 +85,11 @@ public class TicTacToe extends MPCasinoGame {
                 if (map[row][col] == Value.BLANK) {
                     map[row][col] = xTurn ? Value.X : Value.O;
                 } else {
-                    channel.sendMessage("That spot is already taken!").queue();
+                    channel.sendMessage("That spot is already taken.").queue();
+                    channel.sendMessage(new EmbedBuilder()
+                            .setTitle(getCurrentTurn().getEffectiveName().toUpperCase() + "'S TURN")
+                            .setDescription(board())
+                            .setColor(xTurn ? Color.RED : Color.BLUE).build()).queue();
                     return;
                 }
             } else {
@@ -101,7 +105,7 @@ public class TicTacToe extends MPCasinoGame {
                     .setColor(xTurn ? Color.RED : Color.BLUE).build()).queue();
             percentages.put(xTurn ? x : o, 1.0);
             percentages.put(xTurn ? o : x, 0.0);
-            endGame(channel);
+            endGame(channel, false);
         } else {
             if (checkEmpty()) {
                 xTurn = !xTurn;
@@ -116,7 +120,7 @@ public class TicTacToe extends MPCasinoGame {
                         .setColor(Color.WHITE).build()).queue();
                 percentages.put(x, 0.5);
                 percentages.put(o, 0.5);
-                endGame(channel);
+                endGame(channel, false);
             }
         }
     }

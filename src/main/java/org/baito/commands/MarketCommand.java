@@ -50,7 +50,7 @@ public class MarketCommand implements Command {
             eb.addField("INFO", ":green_circle: The Market is open.\n:yellow_circle: The Market will close next update.\n:red_circle: The Market is closed.", false);
             eb.addField("SUBCOMMANDS", ".market [market name] | **Info about a Market.**", false);
 
-            ImageUtils.embedImage(channel, ImageUtils.getImage("MARKETICON.png"), eb, "MARKETICON", "png");
+            ImageUtils.embedImage(channel, ImageUtils.getImage("MARKETICON.png"), eb, true, "MARKETICON", "png");
         } else {
             ArrayList<Market> possibles = new ArrayList<>();
             for (Map.Entry<String, Market> i : marketRegistry.entrySet()) {
@@ -80,7 +80,7 @@ public class MarketCommand implements Command {
             eb.addField("DATA", "You own **" + account.getMarket(m) + " " + m.getName() + "s**\n" + m.getHighest() + " high " + m.getLowest() + " low " + m.average() + " avg", false);
 
             BufferedImage img = ImageUtils.getImage("MARKETICONS/" + m.getKey().replace(" ", "_") + ".png");
-            ImageUtils.embedImage(channel, img, eb, m.getKey().replace(" ", "_"), "png");
+            ImageUtils.embedImage(channel, img, eb, true, m.getKey().replace(" ", "_"), "png");
         }
     }
 }

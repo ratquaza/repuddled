@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5cc9c2fb-128e-4a9f-a790-37bfb5773511" name="Default Changelist" comment="static methods for certain registries, suppressed warning, added lobbies for multiplayer casino games">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/baito/casino/games/multiplayer/Roulette.java" afterDir="false" />
+    <list default="true" id="5cc9c2fb-128e-4a9f-a790-37bfb5773511" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.bin" afterDir="false" />
@@ -11,21 +10,25 @@
       <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/API/TimerManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/API/TimerManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/API/registry/SingularRegistry.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/API/registry/SingularRegistry.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/API/image/ImageUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/API/image/ImageUtils.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/Input.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/Input.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/casino/Casino.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/casino/Casino.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/casino/games/multiplayer/MPCasinoGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/casino/games/multiplayer/MPCasinoGame.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/casino/games/multiplayer/TicTacToe$Value.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/casino/games/multiplayer/TicTacToe$Value.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/casino/games/multiplayer/TicTacToe.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/casino/games/multiplayer/TicTacToe.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/commands/CasinoCommand$Lobby.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/commands/CasinoCommand$Lobby.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/commands/CasinoCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/commands/CasinoCommand.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/org/baito/commands/MarketCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/org/baito/commands/MarketCommand.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/libs/repuddled-1-all.jar" beforeDir="false" afterPath="$PROJECT_DIR$/build/libs/repuddled-1-all.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/API/TimerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/baito/API/TimerManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/API/registry/SingularRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/baito/API/registry/SingularRegistry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/API/image/ImageUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/baito/API/image/ImageUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/Input.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/baito/Input.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/baito/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/casino/Casino.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/baito/casino/Casino.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/casino/games/multiplayer/MPCasinoGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/baito/casino/games/multiplayer/MPCasinoGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/casino/games/multiplayer/Roulette.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/baito/casino/games/multiplayer/Roulette.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/casino/games/multiplayer/TicTacToe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/baito/casino/games/multiplayer/TicTacToe.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/commands/CasinoCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/baito/commands/CasinoCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/baito/commands/MarketCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/baito/commands/MarketCommand.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -201,7 +204,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589702713472</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="further casino work + comments for clarification">
+      <created>1589718910430</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1589718910430</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -220,6 +230,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="market work, serialized calendar, hourly event, batch function on registries" />
     <MESSAGE value="static methods for certain registries, suppressed warning, added lobbies for multiplayer casino games" />
-    <option name="LAST_COMMIT_MESSAGE" value="static methods for certain registries, suppressed warning, added lobbies for multiplayer casino games" />
+    <MESSAGE value="further casino work + comments for clarification" />
+    <option name="LAST_COMMIT_MESSAGE" value="further casino work + comments for clarification" />
   </component>
 </project>

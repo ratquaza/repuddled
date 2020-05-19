@@ -31,7 +31,7 @@ public abstract class MPCasinoGame{
         this.name = name;
         this.levelMinimum = levelMinimum;
         this.maxPLayers = Math.max(maxPlayers, 2);
-        this.minPlayers = Math.max(2, Math.min(maxPlayers, minPlayers));
+        this.minPlayers = Math.max(1, Math.min(maxPlayers, minPlayers));
     }
 
     // New, no arg instnace
@@ -90,8 +90,11 @@ public abstract class MPCasinoGame{
     }
 
     // Ends the game
-    public final void endGame(MessageChannel channel) {
-        Casino.endMPGame(channel, getPlayers());
+    public final void endGame(MessageChannel channel, boolean silent) {
+        Casino.endMPGame(channel, silent, getPlayers());
+    }
+    public final void endGame(MessageChannel channel, boolean silent, Member... members) {
+        Casino.endMPGame(channel, silent, members);
     }
 
     // Whether the game is using Maple or Gold
