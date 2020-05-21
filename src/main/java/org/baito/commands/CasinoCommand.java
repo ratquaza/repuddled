@@ -177,7 +177,7 @@ public class CasinoCommand implements Command {
 
                     // Everyone needs to be kicked
                     if (toRemove.size() == l.players.size()) {
-                        channel.sendMessage(eb.setAuthor("Could not start a lobby, no player has enough funds of " + (l.useMaple ? Main.maple() : Main.gold()) + l.bet + ".")
+                        channel.sendMessage(eb.setAuthor("Could not start a lobby, no player has enough funds of " + Main.curr(l.useMaple) + l.bet + ".")
                                 .build()).queue();
                         return;
                     }
@@ -255,6 +255,26 @@ public class CasinoCommand implements Command {
                     }
 
                     channel.sendMessage(eb.setAuthor("Successfully left the lobby.").setColor(Color.GREEN).build()).queue();
+                } else if (arguments[0].equalsIgnoreCase("lobby")) {
+                    if (!lobbies.containsKey(executor)) {
+                        channel.sendMessage(eb.setAuthor("You are not in a lobby.").build()).queue();
+                        return;
+                    }
+
+                    Lobby l = lobbies.get(executor);
+
+                    StringBuilder players = new StringBuilder();
+                    for (Member i : l.players) {
+                        players.append(i.getEffectiveName() + "\n");
+                    }
+
+                    eb.setColor(Color.GREEN).setTitle(l.host.getEffectiveName().toUpperCase() + "'S " + l.game.name().toUpperCase() + " GAME")
+                            .addField("CURRENT PLAYERS - " + l.players.size() + "/" + l.game.maxPLayers + " - MIN " + l.game.minPlayers + " REQUIRED"
+                                    , players.toString(), false)
+                            .addField("BUY IN/BET", Main.curr(l.useMaple) + l.bet, false)
+                            .setThumbnail(l.host.getUser().getEffectiveAvatarUrl());
+
+                    channel.sendMessage(eb.build()).queue();
                 }
             }
         }

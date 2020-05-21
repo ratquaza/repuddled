@@ -47,7 +47,7 @@ public class Casino {
             account.modifyGold(Modify.SUBTRACT, bet);
         }
         channel.sendMessage(new EmbedBuilder().setColor(new Color(255, 200, 0))
-                .setDescription("**" + m.getEffectiveName() + "'s " + game.name() + " Game** - " + (isMaple ? Main.maple() : Main.gold()) + " " + bet).build()).queue();
+                .setDescription("**" + m.getEffectiveName() + "'s " + game.name() + " Game** - " + Main.curr(isMaple) + " " + bet).build()).queue();
         g.setValues(m, bet, isMaple);
         g.setup(channel);
     }
@@ -58,7 +58,7 @@ public class Casino {
 
     public static void endSPGame(Member winner, MessageChannel channel) {
         SPCasinoGame rg = SPRunning.get(winner);
-        channel.sendMessage("x" + rg.getMultiplier() + " Multiplier, winning **" + (rg.useMaple() ? Main.maple() : Main.gold()) + " " + ((int)Math.round(rg.getBet() * rg.getMultiplier())) + "**").queue();
+        channel.sendMessage("x" + rg.getMultiplier() + " Multiplier, winning **" + Main.curr(rg.useMaple()) + " " + ((int)Math.round(rg.getBet() * rg.getMultiplier())) + "**").queue();
         Account account = MasterRegistry.accountRegistry().get(winner.getUser());
         if (rg.useMaple()) {
             account.modifyMaple(Modify.ADD, (int) Math.round(rg.getBet() * rg.getMultiplier()));
@@ -106,7 +106,7 @@ public class Casino {
         }
 
         channel.sendMessage(new EmbedBuilder().setColor(new Color(255, 200, 0))
-                .setDescription("**" + game.name() + " Game** - " + (isMaple ? Main.maple() : Main.gold()) + " " + bet).build()).queue();
+                .setDescription("**" + game.name() + " Game** - " + Main.curr(isMaple) + " " + bet).build()).queue();
         g.setValues(bet, isMaple, members);
         g.setup(channel);
     }
@@ -149,7 +149,7 @@ public class Casino {
                     if (!membersList.contains(e.getKey())) {
                         return;
                     }
-                    sb.append("**" + e.getKey().getEffectiveName() + ":** " + (finalGame.useMaple() ? Main.maple() : Main.gold()) + e.getValue() + "\n");
+                    sb.append("**" + e.getKey().getEffectiveName() + ":** " + Main.curr(finalGame.useMaple()) + e.getValue() + "\n");
                     if (finalGame.useMaple()) {
                         registry.get(e.getKey().getUser()).modifyMaple(Modify.ADD, e.getValue());
                     } else {
@@ -164,7 +164,7 @@ public class Casino {
                         return;
                     }
                     sb.append("**" + e.getKey().getEffectiveName() + ":** x" + e.getValue() +
-                            " -> " + (finalGame.useMaple() ? Main.maple() : Main.gold()) + (finalGame.getBet() * e.getValue()) + "\n");
+                            " -> " + Main.curr(finalGame.useMaple()) + (finalGame.getBet() * e.getValue()) + "\n");
                     if (finalGame.useMaple()) {
                         registry.get(e.getKey().getUser()).modifyMaple(Modify.ADD, (int) (finalGame.getBet() * e.getValue()));
                     } else {
@@ -179,7 +179,7 @@ public class Casino {
                         return;
                     }
                     sb.append("**" + e.getKey().getEffectiveName() + ":** " + (e.getValue()*100) + "% -> "
-                            + (finalGame.useMaple() ? Main.maple() : Main.gold()) + (finalGame.getPot() * e.getValue()) + "\n");
+                            + Main.curr(finalGame.useMaple()) + (finalGame.getPot() * e.getValue()) + "\n");
                     if (finalGame.useMaple()) {
                         registry.get(e.getKey().getUser()).modifyMaple(Modify.ADD, (int) (finalGame.getPot() * e.getValue()));
                     } else {

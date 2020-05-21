@@ -70,7 +70,7 @@ public class Roulette extends MPCasinoGame {
             }
             EmbedBuilder eb = new EmbedBuilder().setTitle("CURRENT BOARD").setColor(new Color(255, 180, 0))
                     .addField("DATA", "You have " + Main.curr(useMaple) + betProfile.money + " left.", false);
-            ImageUtils.embedImage(channel, board, eb, true, "BOARD", "png");
+            ImageUtils.embedImage(channel, board, eb, false, "BOARD", "png");
             return;
         }
 
@@ -128,7 +128,7 @@ public class Roulette extends MPCasinoGame {
                 }
 
                 if (betAmount > betProfile.getMoney()) {
-                    channel.sendMessage("Insufficient chips. You have " + (useMaple ? Main.maple() : Main.gold()) + betProfile.getMoney()).queue();
+                    channel.sendMessage("Insufficient chips. You have " + Main.curr(useMaple) + betProfile.getMoney()).queue();
                     return;
                 }
 
@@ -239,11 +239,16 @@ public class Roulette extends MPCasinoGame {
                 }
 
                 if (betAmount > betProfile.getMoney()) {
-                    channel.sendMessage("Insufficient chips. You have " + (useMaple ? Main.maple() : Main.gold()) + betProfile.getMoney()).queue();
+                    channel.sendMessage("Insufficient chips. You have " + Main.curr(useMaple) + betProfile.getMoney()).queue();
                     return;
                 }
 
                 betProfile.subtractMoney(betAmount);
+
+                // Place the winnings
+                for (BetLocation i : locations) {
+                    betProfile.placeWinning(i, betAmount * (int) Math.floor(35 / (double) locations.length));
+                }
 
                 BufferedImage board = ImageUtils.getImage("CASINO/ROULETTEGAME/ROULETTE.png");
                 for (int i : betProfile.bets.keySet()) {
@@ -258,17 +263,12 @@ public class Roulette extends MPCasinoGame {
                 if (betProfile.getMoney() == 0) {
                     ImageUtils.embedImage(channel, board, new EmbedBuilder().setTitle("Successfully bet " + Main.curr(useMaple) + betAmount + " on **"
                             + Arrays.toString(t).substring(1, Arrays.toString(t).length() - 1) + "**. \n"
-                            + "You have " + Main.curr(useMaple) + betProfile.money + " left, *autolocking in.*"), false, "BOARD", "png");
+                            + "You have " + Main.curr(useMaple) + betProfile.money + " left, *autolocking in."), false, "BOARD", "png");
                     betProfile.finishedBetting = true;
                 } else {
                     ImageUtils.embedImage(channel, board, new EmbedBuilder().setTitle("Successfully bet " + Main.curr(useMaple) + betAmount + " on **"
                             + Arrays.toString(t).substring(1, Arrays.toString(t).length() - 1) + "**. \n"
-                            + "You have " + Main.curr(useMaple) + betProfile.money + " left.*"), false, "BOARD", "png");
-                }
-
-                // Place the winnings
-                for (BetLocation i : locations) {
-                    betProfile.placeWinning(i, betAmount * (int) Math.floor(35 / (double) locations.length));
+                            + "You have " + Main.curr(useMaple) + betProfile.money + " left."), false, "BOARD", "png");
                 }
             }
         }
@@ -307,13 +307,18 @@ public class Roulette extends MPCasinoGame {
                     StringBuilder leaving = new StringBuilder();
                     for (Member i : toLeave) {
                         leaving.append(i.getEffectiveName() + " \n");
-                        endGame(channel, true, i);
-                        bets.remove(m);
                     }
                     eb.addField("REMOVED PLAYERS", leaving.toString(), false);
                 }
 
                 channel.sendMessage(eb.build()).queue();
+
+                if (toLeave.size() > 0) {
+                    endGame(channel, false, toLeave.toArray(new Member[0]));
+                    for (Member i : toLeave) {
+                        bets.remove(i);
+                    }
+                }
             }
         }
     }

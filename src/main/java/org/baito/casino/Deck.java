@@ -105,7 +105,10 @@ public class Deck {
         }
 
         public String toString() {
-            return suite + " " + number;
+            return number.toString().toUpperCase().substring(0, 1) +
+                    number.toString().toLowerCase().substring(1) + " of "
+                    + suite.toString().toUpperCase().substring(0, 1) +
+                    suite.toString().toLowerCase().substring(1);
         }
 
         public boolean equals(Object o) {

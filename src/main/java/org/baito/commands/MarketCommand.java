@@ -42,7 +42,7 @@ public class MarketCommand implements Command {
                     open.append(":red_circle:");
                 }
 
-                open.append(" **" + i.getKey() + "**\u200B \u200B |\u200B \u200B " + (i.usesMaple() ? Main.maple() : Main.gold()) + " " + i.getPrice() + " " +
+                open.append(" **" + i.getKey() + "**\u200B \u200B |\u200B \u200B " + Main.curr(i.usesMaple()) + " " + i.getPrice() + " " +
                         (i.hasIncreased() ? " :small_red_triangle:" : " :small_red_triangle_down:") + "\nLevel Minimum: *" + i.getLevel() + "*\n");
             }
 
@@ -72,7 +72,7 @@ public class MarketCommand implements Command {
             eb.setColor(m.color);
             eb.setTitle(m.getKey() + " MARKET");
             eb.addField("INFO", m.getDescription(), false);
-            eb.addField("PRICE", (m.usesMaple() ? Main.maple() : Main.gold()) + " " + m.getPrice() + " " + (m.hasIncreased() ? ":small_red_triangle:" : ":small_red_triangle_down:"), false);
+            eb.addField("PRICE", Main.curr(m.usesMaple()) + " " + m.getPrice() + " " + (m.hasIncreased() ? ":small_red_triangle:" : ":small_red_triangle_down:"), false);
             eb.addField("STATUS", "Currently " + (m.isOpen(Main.getCalendar(), null) ? "open for " + m.purchadeMode(Main.getCalendar()).presentVerb : "closed."), false);
             if (m.isOpen(Main.getCalendar(), null)) {
                 eb.addField("STOCK", "**" + m.getStock() + "** " + m.getName() + "s available.", false);
