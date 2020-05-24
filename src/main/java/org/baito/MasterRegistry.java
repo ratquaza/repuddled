@@ -3,7 +3,7 @@ package org.baito;
 import net.dv8tion.jda.api.entities.User;
 import org.baito.API.registry.SerializableRegistry;
 import org.baito.API.registry.SingularRegistry;
-import org.baito.data.Account;
+import org.baito.account.Account;
 import org.baito.stonk.*;
 
 import java.util.HashMap;

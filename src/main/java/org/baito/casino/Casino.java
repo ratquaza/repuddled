@@ -13,8 +13,8 @@ import org.baito.casino.games.multiplayer.TicTacToe;
 import org.baito.casino.games.singeplayer.SPCasinoGame;
 import org.baito.casino.games.singeplayer.Blackjack;
 import org.baito.casino.games.singeplayer.Slots;
-import org.baito.data.Account;
-import org.baito.data.Modify;
+import org.baito.account.Account;
+import org.baito.account.Modify;
 
 import java.awt.*;
 import java.util.*;
@@ -193,7 +193,25 @@ public class Casino {
     }
 
     public static void onPuddleClose() {
+        SerializableRegistry<User, Account> accountReg = MasterRegistry.accountRegistry();
+        for (Map.Entry<Member, SPCasinoGame> e : SPRunning.entrySet()) {
+            if (e.getValue().useMaple()) {
+                accountReg.get(e.getKey().getUser()).modifyMaple(Modify.ADD, e.getValue().getBet());
+            } else {
+                accountReg.get(e.getKey().getUser()).modifyGold(Modify.ADD, e.getValue().getBet());
+            }
+        }
 
+        for (Map.Entry<Member, MPCasinoGame> e : MPRunning.entrySet()) {
+            if (e.getValue().useMaple()) {
+                accountReg.get(e.getKey().getUser()).modifyMaple(Modify.ADD, e.getValue().getBet());
+            } else {
+                accountReg.get(e.getKey().getUser()).modifyGold(Modify.ADD, e.getValue().getBet());
+            }
+        }
+
+        SPRunning.clear();
+        MPRunning.clear();
     }
 
     static {

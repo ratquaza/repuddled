@@ -5,16 +5,12 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
-import org.baito.API.TimerManager;
 import org.baito.API.command.CommandRegistry;
 import org.baito.API.config.Config;
 import org.baito.API.events.CommandEvent;
 import org.baito.API.events.JoinLeaveEvent;
 import org.baito.API.events.ResponseEvent;
-import org.baito.commands.AdminCommand;
-import org.baito.commands.CasinoCommand;
-import org.baito.commands.EconomyCommand;
-import org.baito.commands.MarketCommand;
+import org.baito.commands.*;
 import org.json.JSONObject;
 
 import javax.annotation.Nullable;
@@ -46,6 +42,7 @@ public class Main {
         CommandRegistry.register(new EconomyCommand(), "econ", "economy", "e");
         CommandRegistry.register(new AdminCommand(), "admin");
         CommandRegistry.register(new MarketCommand(), "market", "m");
+        CommandRegistry.register(new ShopCommand(), "shop", "s");
 
         TimerManager.init();
     }

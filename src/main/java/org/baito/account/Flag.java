@@ -1,4 +1,4 @@
-package org.baito.data;
+package org.baito.account;
 
 public enum Flag {
     RUBY, SAPPHIRE, EMERALD,

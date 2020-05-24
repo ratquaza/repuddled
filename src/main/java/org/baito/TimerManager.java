@@ -1,6 +1,6 @@
-package org.baito.API;
+package org.baito;
 
-import org.baito.Main;
+import org.baito.API.Duration;
 
 import java.util.*;
 

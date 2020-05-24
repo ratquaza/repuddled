@@ -6,11 +6,10 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import org.baito.casino.Deck;
 
 import javax.annotation.Nullable;
-import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Poker extends MPCasinoGame {
+
     private HashMap<Member, PokerHand> hands;
     private Deck deck;
     private Community community;
@@ -40,7 +39,7 @@ public class Poker extends MPCasinoGame {
             e.getValue().draw(deck);
             e.getKey().getUser().openPrivateChannel().complete().sendMessage(
                     new EmbedBuilder()
-                            .setAuthor("Drew " + e.getValue().cardA + " and " + e.getValue().cardB)
+                            .setAuthor("Drew " + e.getValue().cardA.toStringUTF() + " and " + e.getValue().cardB.toStringUTF())
                             .setColor(e.getKey().getRoles().get(0).getColor()).build()
             ).queue();
         });
@@ -79,23 +78,80 @@ public class Poker extends MPCasinoGame {
             cardA = d.draw();
             cardB = d.draw();
         }
+
+        public void clear() {
+            cardA = null;
+            cardB = null;
+        }
+
+        public boolean equals(Object o) {
+            if (o == null) return false;
+            if (!(o instanceof PokerHand)) return false;
+
+            PokerHand other = (PokerHand) o;
+
+            return cardA.suite == other.cardA.suite && cardA.value == other.cardA.value &&
+                    cardB.suite == other.cardB.suite && cardB.value == other.cardB.value;
+        }
     }
 
     private static class Community {
-        private Deck.Card[] cards;
+        private ArrayList<Deck.Card> cards;
 
         public Community() {
-            cards = new Deck.Card[5];
+            cards = new ArrayList<>();
         }
 
         public void draw(Deck d) {
-            for (int i = 0; i < cards.length; i++) {
-                cards[i] = d.draw();
+            for (int i = 0; i < 5; i++) {
+                cards.add(d.draw());
             }
         }
 
+        public void clear() {
+            cards.clear();
+        }
+
         public PokerHand bestOf(PokerHand handOne, PokerHand handTwo) {
-            return handOne;
+            return getType(handOne).type.ordinal() > getType(handTwo).type.ordinal() ? handOne :
+                    getType(handTwo).type.ordinal() > getType(handOne).type.ordinal() ? handTwo :
+                            null;
+        }
+
+        public RankedHand getType(PokerHand hand) {
+            if (hand.cardA == null || hand.cardB == null) return new RankedHand(HandType.EMPTY);
+
+            ArrayList<Deck.Card> combined = new ArrayList<>(Arrays.asList(hand.cardA, hand.cardB));
+            combined.addAll(cards);
+
+            Collections.sort(combined, new Comparator<Deck.Card>() {
+                @Override
+                public int compare(Deck.Card o1, Deck.Card o2) {
+                    return Integer.compare(o1.value.ordinal(), o2.value.ordinal());
+                }
+            });
+
+            return new RankedHand(HandType.EMPTY);
+        }
+    }
+
+    private enum HandType {
+        EMPTY, HIGHCARD,
+        PAIR, TWOPAIR,
+        THREEKIND, STRAIGHT,
+        FLUSH, FULLHOUSE,
+        FOURKIND, STRAIGHTFLUSH,
+        ROYALFLUSH;
+    }
+
+    private static class RankedHand {
+
+        private final HandType type;
+        private final ArrayList<Deck.Card> cards;
+
+        public RankedHand(HandType type, Deck.Card... cards) {
+            this.type = type;
+            this.cards = new ArrayList<>(Arrays.asList(cards));
         }
     }
 }

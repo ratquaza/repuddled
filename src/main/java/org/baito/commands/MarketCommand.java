@@ -9,7 +9,7 @@ import org.baito.API.image.ImageUtils;
 import org.baito.API.registry.SingularRegistry;
 import org.baito.Main;
 import org.baito.MasterRegistry;
-import org.baito.data.Account;
+import org.baito.account.Account;
 import org.baito.stonk.Market;
 import java.awt.*;
 import java.awt.image.BufferedImage;

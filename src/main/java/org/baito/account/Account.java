@@ -1,15 +1,15 @@
-package org.baito.data;
+package org.baito.account;
 
 import net.dv8tion.jda.api.entities.User;
 import org.baito.API.registry.SerializableRegistryEntry;
 import org.baito.Main;
 import org.baito.MasterRegistry;
-import org.baito.API.Events;
+import org.baito.Events;
+import org.baito.adventure.AdventureData;
 import org.baito.stonk.Market;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +18,8 @@ public class Account implements SerializableRegistryEntry<User> {
 
     private long gold;
     private long maple;
+
+    private AdventureData data;
 
     private HashMap<Market, Integer> marketItems = new HashMap<>();
     private HashMap<Flag, Boolean> flags = new HashMap<>();

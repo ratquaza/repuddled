@@ -2,8 +2,8 @@ package org.baito.stonk;
 
 import net.dv8tion.jda.api.entities.User;
 import org.baito.MasterRegistry;
-import org.baito.data.Account;
-import org.baito.data.Flag;
+import org.baito.account.Account;
+import org.baito.account.Flag;
 
 import javax.annotation.Nullable;
 import java.awt.*;

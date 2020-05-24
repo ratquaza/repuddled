@@ -1,5 +1,8 @@
 package org.baito.casino;
 
+import net.dv8tion.jda.api.entities.Emote;
+import net.dv8tion.jda.api.entities.Guild;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -13,7 +16,7 @@ public class Deck {
 
     public boolean contains(CardValue v) {
         for (Card i : cards) {
-            if (i.number == v) return true;
+            if (i.value == v) return true;
         }
         return false;
     }
@@ -27,7 +30,7 @@ public class Deck {
 
     public boolean contains(CardSuite s, CardValue v) {
         for (Card i : cards) {
-            if (i.number == v && i.suite == s) return true;
+            if (i.value == v && i.suite == s) return true;
         }
         return false;
     }
@@ -42,7 +45,7 @@ public class Deck {
     public int count(CardValue v) {
         int count = 0;
         for (Card i : cards) {
-            if (i.number == v) count++;
+            if (i.value == v) count++;
         }
         return count;
     }
@@ -69,14 +72,12 @@ public class Deck {
 
     public Card draw() {
         int choice = (int) Math.floor(Math.random() * cards.size());
-        Card card = cards.get(choice);
-        cards.remove(choice);
-        return card;
+        return cards.remove(choice);
     }
 
     public void remove(CardSuite suite, CardValue value) {
         for (Card i : cards) {
-            if (i.number == value && i.suite == suite) {
+            if (i.value == value && i.suite == suite) {
                 cards.remove(i);
                 return;
             }
@@ -97,37 +98,51 @@ public class Deck {
 
     public static class Card {
         public CardSuite suite;
-        public CardValue number;
+        public CardValue value;
 
         public Card(CardSuite suite, CardValue value) {
             this.suite = suite;
-            this.number = value;
+            this.value = value;
         }
 
-        public String toString() {
-            return number.toString().toUpperCase().substring(0, 1) +
-                    number.toString().toLowerCase().substring(1) + " of "
-                    + suite.toString().toUpperCase().substring(0, 1) +
-                    suite.toString().toLowerCase().substring(1);
+        public String toStringUTF() {
+            return suite.utf + " " + value.toString().toUpperCase().substring(0, 1) +
+                    value.toString().toLowerCase().substring(1);
+        }
+
+        public String toStringEmoji(Guild g) {
+            if (suite.emoji.length() > 0 && g != null) {
+                if (g.getEmotesByName(suite.emoji, true).size() == 1) {
+                    Emote e = g.getEmotesByName(suite.emoji, true).get(0);
+                    return "<:" + e.getName() + ":" + e.getId() + "> " + value.toString().toUpperCase().substring(0, 1) +
+                            value.toString().toLowerCase().substring(1);
+                } else {
+                    return toStringUTF();
+                }
+            } else {
+                return toStringUTF();
+            }
         }
 
         public boolean equals(Object o) {
             if (!(o instanceof Card)) return false;
             Card c = (Card) o;
-            return c.suite == suite && c.number == number;
+            return c.suite == suite && c.value == value;
         }
     }
 
     public enum CardSuite {
-        SPADES("\u2660"),
-        CLUBS("\u2663"),
-        DIAMONDS("\u2666"),
-        HEARTS("\u2665");
+        SPADES("\u2660","cspades"),
+        CLUBS("\u2663","cclubs"),
+        DIAMONDS("\u2666",""),
+        HEARTS("\u2665","");
 
-        public String character;
+        public String utf;
+        public String emoji;
 
-        CardSuite(String s) {
-            character = s;
+        CardSuite(String s, String e) {
+            utf = s;
+            this.emoji = e;
         }
     }
 

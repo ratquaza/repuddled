@@ -32,10 +32,11 @@ public class CommandRegistry {
 
     public static ArrayList<Member> searchForMember(Guild server, String name) {
         ArrayList<Member> list = new ArrayList<>();
+        final String f = name.toUpperCase();
         server.getMembers().forEach((m) -> {
             if (!m.isFake() && !m.getUser().isBot() &&
-                    (m.getEffectiveName().contains(name) || m.getEffectiveName().toUpperCase().equalsIgnoreCase(name.toUpperCase()) ||
-                            m.getUser().getName().contains(name) || m.getUser().getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))
+                    (m.getEffectiveName().toUpperCase().contains(f) || m.getEffectiveName().toUpperCase().equalsIgnoreCase(f.toUpperCase()) ||
+                            m.getUser().getName().toUpperCase().contains(f) || m.getUser().getName().toUpperCase().equalsIgnoreCase(f.toUpperCase()))
             ) {
                 list.add(m);
             }

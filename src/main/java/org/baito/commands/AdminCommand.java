@@ -1,7 +1,6 @@
 package org.baito.commands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -12,8 +11,7 @@ import org.baito.API.command.Command;
 import org.baito.API.command.CommandRegistry;
 import org.baito.Main;
 import org.baito.MasterRegistry;
-import org.baito.data.Account;
-import org.baito.data.Flag;
+import org.baito.account.Account;
 
 import java.awt.*;
 import java.util.Arrays;

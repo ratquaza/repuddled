@@ -27,36 +27,36 @@ public class Blackjack extends SPCasinoGame {
         Deck.Card cardOne = deck.draw();
         Deck.Card cardTwo = deck.draw();
 
-        if (cardOne.number == Deck.CardValue.ACE) {
+        if (cardOne.value == Deck.CardValue.ACE) {
             if (dealerValue < 11) {
                 dealerValue += 11;
             } else {
                 dealerValue += 1;
             }
         } else {
-            dealerValue += Math.min(10, cardOne.number.value);
+            dealerValue += Math.min(10, cardOne.value.value);
         }
 
-        if (cardTwo.number == Deck.CardValue.ACE) {
+        if (cardTwo.value == Deck.CardValue.ACE) {
             if (dealerValue < 11) {
                 dealerValue += 11;
             } else {
                 dealerValue += 1;
             }
         } else {
-            dealerValue += Math.min(10, cardTwo.number.value);
+            dealerValue += Math.min(10, cardTwo.value.value);
         }
 
         while (shouldHit(dealerValue, deck) && dealerValue < 21) {
             Deck.Card draw = deck.draw();
-            if (draw.number == Deck.CardValue.ACE) {
+            if (draw.value == Deck.CardValue.ACE) {
                 if (dealerValue < 11) {
                     dealerValue += 11;
                 } else {
                     dealerValue += 1;
                 }
             } else {
-                dealerValue += Math.min(10, draw.number.value);
+                dealerValue += Math.min(10, draw.value.value);
             }
         }
 
@@ -77,17 +77,17 @@ public class Blackjack extends SPCasinoGame {
         cardOne = deck.draw();
         cardTwo = deck.draw();
 
-        cardOneAce = cardOne.number == Deck.CardValue.ACE;
-        cardTwoAce = cardTwo.number == Deck.CardValue.ACE;
+        cardOneAce = cardOne.value == Deck.CardValue.ACE;
+        cardTwoAce = cardTwo.value == Deck.CardValue.ACE;
 
         if (!cardOneAce) {
-            playerValue += Math.min(10, cardOne.number.value);
+            playerValue += Math.min(10, cardOne.value.value);
         }
         if (!cardTwoAce) {
-            playerValue += Math.min(10, cardTwo.number.value);
+            playerValue += Math.min(10, cardTwo.value.value);
         }
 
-        channel.sendMessage("Drew " + cardOne.number + " and " + cardTwo.number + ". Your total: " + playerValue).queue();
+        channel.sendMessage("Drew " + cardOne.value + " and " + cardTwo.value + ". Your total: " + playerValue).queue();
 
         if (cardOneAce || cardTwoAce) {
             if (!cardOneAce || !cardTwoAce) {
@@ -123,14 +123,14 @@ public class Blackjack extends SPCasinoGame {
         if (args[0].equalsIgnoreCase("hit")) {
             Deck.Card cardOne = deck.draw();
 
-            cardOneAce = cardOne.number == Deck.CardValue.ACE;
+            cardOneAce = cardOne.value == Deck.CardValue.ACE;
 
             if (cardOneAce) {
                 channel.sendMessage("You drew an ACE! Please choose whether to make them worth 1 or 11!").queue();
                 return;
             } else {
-                playerValue += Math.min(10, cardOne.number.value);
-                channel.sendMessage("Drew " + cardOne.number + ". Your total: " + playerValue).queue();
+                playerValue += Math.min(10, cardOne.value.value);
+                channel.sendMessage("Drew " + cardOne.value + ". Your total: " + playerValue).queue();
             }
 
             if (playerValue == 21) {

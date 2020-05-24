@@ -1,18 +1,14 @@
-package org.baito.API;
+package org.baito;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
-import org.baito.API.TimerManager;
 import org.baito.API.registry.SerializableRegistry;
-import org.baito.Main;
-import org.baito.MasterRegistry;
-import org.baito.data.Account;
-import org.baito.data.Modify;
+import org.baito.account.Account;
+import org.baito.account.Modify;
 import org.baito.stonk.Market;
 
 import java.awt.*;
 import java.util.Calendar;
-import java.util.Collection;
 
 public class Events {
 
@@ -29,23 +25,26 @@ public class Events {
     }
 
     public static void onHourly(Calendar now) {
-        Calendar nextHour = (Calendar) now.clone();
-        Calendar previousTime = (Calendar) now.clone();
-        if (previousTime.get(Calendar.HOUR_OF_DAY) == 0) {
-            previousTime.set(Calendar.HOUR_OF_DAY, 23);
+        Calendar next = (Calendar) now.clone();
+        Calendar before = (Calendar) now.clone();
+        if (before.get(Calendar.HOUR_OF_DAY) == 0) {
+            before.set(Calendar.HOUR_OF_DAY, 23);
         } else {
-            previousTime.set(Calendar.HOUR_OF_DAY, previousTime.get(Calendar.HOUR_OF_DAY) - 1);
+            before.set(Calendar.HOUR_OF_DAY, before.get(Calendar.HOUR_OF_DAY) - 1);
         }
-        if (nextHour.get(Calendar.HOUR_OF_DAY) == 23) {
-            nextHour.set(Calendar.HOUR_OF_DAY, 0);
+        if (next.get(Calendar.HOUR_OF_DAY) == 23) {
+            next.set(Calendar.HOUR_OF_DAY, 0);
         } else {
-            nextHour.set(Calendar.HOUR_OF_DAY, nextHour.get(Calendar.HOUR_OF_DAY) + 1);
+            next.set(Calendar.HOUR_OF_DAY, next.get(Calendar.HOUR_OF_DAY) + 1);
         }
 
         System.out.println("HOURLY " + now.getTime());
         // Puddle Day
         if (now.get(Calendar.HOUR_OF_DAY) % TimerManager.PUDDLE_DAY_INTERVAL == 0) {
-
+            // Earn gold equal to level * 50.
+            MasterRegistry.accountRegistry().values().parallelStream().forEach(
+                    ac -> ac.modifyGold(Modify.ADD, ac.getLevel() * 50)
+            );
         }
 
         StringBuilder forBuying = new StringBuilder();
@@ -58,9 +57,9 @@ public class Events {
             // If the Market is open right now
             if (i.isOpen(now, null)) {
                 // and the Market was closed before
-                if (!i.isOpen(previousTime, null)) {
+                if (!i.isOpen(before, null)) {
                     forBuying.append(":green_circle: " + i.getName() + " Market\n");
-                } else if (!i.isOpen(nextHour, null)) {
+                } else if (!i.isOpen(next, null)) {
                     // and the Market will close next hour
                     closingSoon.append(":yellow_circle: " + i.getName() + " Market\n");
                 }
@@ -70,7 +69,7 @@ public class Events {
             // This does not take into account purchase mode, but opening and closing.
 
             // If a Market opens and closes at two different times, each closing will count as a reset.
-            else if (i.isOpen(previousTime, null) && !i.isOpen(now, null)) {
+            else if (i.isOpen(before, null) && !i.isOpen(now, null)) {
                 accounts.values().parallelStream().forEach(a -> a.modifyMarket(i, Modify.SET, 0));
                 forSelling.append(":red_circle: " + i.getName() + " Market\n");
             }
