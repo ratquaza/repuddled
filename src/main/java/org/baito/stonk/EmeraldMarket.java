@@ -8,7 +8,7 @@ import java.util.Calendar;
 
 public class EmeraldMarket extends Market {
     public EmeraldMarket() {
-        super("Emerald", 10, new Color(0, 200, 100), false, 500, 1000);
+        super("Emerald", 10, new Color(0, 200, 100), false, 500, 1000, 1024);
     }
 
     protected void newValues() {
@@ -45,13 +45,12 @@ public class EmeraldMarket extends Market {
         return "A unique Market, where its profit is equal to its volatility and unpredictability.";
     }
 
-    // Same as Echidnas
+    // Same as Echidnas for both purchase and openings.
     @Override
     public PurchadeMode purchadeMode(Calendar c) {
-        return c.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY ? PurchadeMode.SELLING : PurchadeMode.BUYING;
+        return c.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY ? PurchadeMode.BUY : PurchadeMode.SELL;
     }
 
-    // If the day is a weekend, the Market is closed
     @Override
     public boolean isOpen(Calendar c, @Nullable User u) {
         return c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY;

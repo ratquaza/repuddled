@@ -1,6 +1,8 @@
 package org.baito.shop;
 
-import java.util.ArrayList;
+import org.baito.shop.items.DragonSubscription;
+import org.baito.shop.items.ShopItem;
+
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -33,6 +35,10 @@ public class Shop {
         items.put(i.name(), i);
     }
 
+    public Collection<ShopItem> getItems() {
+        return items.values();
+    }
+
     public String name() {
         return name;
     }
@@ -43,6 +49,7 @@ public class Shop {
 
     static {
         Shop upgrades = new Shop("Upgrades", "Buy upgrades and subscriptions here!");
+        upgrades.registerItem(new DragonSubscription());
         registerShop(upgrades);
     }
 }

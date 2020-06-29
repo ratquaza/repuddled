@@ -8,7 +8,7 @@ import java.util.Calendar;
 
 public class EchidnaMarket extends Market {
     public EchidnaMarket() {
-        super("Echidna", 0, new Color(50, 45, 45), false, 1, 300);
+        super("Echidna", 0, new Color(50, 45, 45), false, 1, 300, 1024);
     }
 
     protected void newValues() {
@@ -49,7 +49,7 @@ public class EchidnaMarket extends Market {
     // Tuesday - Friday: Buying Echidnas
     @Override
     public PurchadeMode purchadeMode(Calendar c) {
-        return c.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY ? PurchadeMode.SELLING : PurchadeMode.BUYING;
+        return c.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY ? PurchadeMode.BUY : PurchadeMode.SELL;
     }
 
     // If the day is a weekend, the Market is closed

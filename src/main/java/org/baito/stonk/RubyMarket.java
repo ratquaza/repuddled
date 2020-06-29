@@ -8,7 +8,7 @@ import java.util.Calendar;
 
 public class RubyMarket extends Market {
     public RubyMarket() {
-        super("Ruby", 10, new Color(255, 0, 0), false, 1, 2000);
+        super("Ruby", 10, new Color(255, 0, 0), false, 1, 2000, 1024);
     }
 
     protected void newValues() {

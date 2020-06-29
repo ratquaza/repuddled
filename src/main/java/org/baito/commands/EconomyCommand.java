@@ -37,7 +37,7 @@ public class EconomyCommand implements Command {
 
                 Account account = MasterRegistry.accountRegistry().get(m.getUser());
                 Color c = m.getColor() == null ? new Color(254, 254, 254) : m.getColor();
-                channel.sendMessage(new EmbedBuilder().setTitle(executor.getEffectiveName().toUpperCase() + "'S ACCOUNT | LEVEL " + account.getLevel())
+                channel.sendMessage(new EmbedBuilder().setTitle(m.getEffectiveName().toUpperCase() + "'S ACCOUNT | LEVEL " + account.getLevel())
                         .setColor(c).addField("BALANCE", account.balance(), false)
                         .addField("MARKET", account.marketBalance(), false)
                         .setThumbnail(m.getUser().getEffectiveAvatarUrl()).build()).queue();

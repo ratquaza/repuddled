@@ -5,7 +5,6 @@ import org.baito.API.registry.SerializableRegistryEntry;
 import org.baito.Main;
 import org.baito.MasterRegistry;
 import org.baito.Events;
-import org.baito.adventure.AdventureData;
 import org.baito.stonk.Market;
 import org.json.JSONObject;
 
@@ -19,16 +18,14 @@ public class Account implements SerializableRegistryEntry<User> {
     private long gold;
     private long maple;
 
-    private AdventureData data;
-
     private HashMap<Market, Integer> marketItems = new HashMap<>();
     private HashMap<Flag, Boolean> flags = new HashMap<>();
-    private HashMap<Upgrade, Integer> upgrades = new HashMap<>();
 
     private int level;
     private int experience;
 
-    public Account() {}
+    public Account() {
+    }
     public Account(User u) {
         this.user = u;
     }
@@ -42,17 +39,6 @@ public class Account implements SerializableRegistryEntry<User> {
     }
     public HashMap<Flag, Boolean> getFlags() {
         return flags;
-    }
-
-    // Upgrades
-    public int getUpgrade(Upgrade i) {
-        return upgrades.getOrDefault(i, 0);
-    }
-    public void modifyUpgrade(Upgrade u, Modify modif, int amount) {
-        upgrades.put(u, (int) mod(upgrades.getOrDefault(u, 0), modif, amount));
-    }
-    public boolean condUpgrade(Upgrade u, Condition con, int amount) {
-        return con(upgrades.getOrDefault(u, 0), con, amount);
     }
 
     // Currencies
@@ -145,7 +131,6 @@ public class Account implements SerializableRegistryEntry<User> {
 
         j.put("marketData", mdj);
         j.put("flags", flags);
-        j.put("upgrades", upgrades);
         return j;
     }
 
@@ -182,13 +167,6 @@ public class Account implements SerializableRegistryEntry<User> {
             JSONObject f = j.getJSONObject("flags");
             for (String i : f.keySet()) {
                 flags.put(Flag.valueOf(i), f.getBoolean(i));
-            }
-        }
-
-        if (j.has("upgrades")) {
-            JSONObject f = j.getJSONObject("upgrades");
-            for (String i : f.keySet()) {
-                upgrades.put(Upgrade.valueOf(i), f.getInt(i));
             }
         }
         return this;

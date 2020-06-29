@@ -24,8 +24,6 @@ public final class TimerManager {
         return tasks.getOrDefault(s, null);
     }
 
-    public static final int PUDDLE_DAY_INTERVAL = 8;
-
     public static void init() {
         Calendar currentTime = Main.getCalendar();
         Duration duration = new Duration().setSeconds(3600 - currentTime.get(Calendar.MINUTE) * 60 - currentTime.get(Calendar.SECOND));

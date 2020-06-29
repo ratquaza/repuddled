@@ -1,7 +1,10 @@
 package org.baito.stonk;
 
 import net.dv8tion.jda.api.entities.User;
+import org.baito.API.WeightedArray;
 import org.baito.API.registry.SingularRegistryEntry;
+import org.baito.Main;
+import org.baito.stonk.events.MarketEvent;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -13,13 +16,14 @@ import java.util.Calendar;
 //https://www.desmos.com/calculator/34s56wjysu
 public abstract class Market implements SingularRegistryEntry<String> {
 
-    Market(String s, int level, Color c, boolean useMaple, int min, int max) {
+    Market(String s, int level, Color c, boolean useMaple, int min, int max, int eventChance) {
         type = s;
         this.level = level;
         this.color = c;
         this.useMaple = useMaple;
         this.minimum = min;
         this.maximum = max;
+        this.events = new WeightedArray<>();
     }
 
     public final Color color; // Color association
@@ -45,6 +49,13 @@ public abstract class Market implements SingularRegistryEntry<String> {
     protected int price; // Current price
     protected int[] history = new int[20]; // Price history, used for graphing
     protected boolean useMaple = false; // Use maple for price or not
+
+    protected int eventChance = 0; // Chance for event
+    protected WeightedArray<MarketEvent> events; // Events
+
+    public final void registerEvent(MarketEvent event, double weight) {
+        events.add(event, weight);
+    }
 
     // Final methods, can not be overridden.
     public final int[] getHistory() {return history;}
@@ -87,7 +98,11 @@ public abstract class Market implements SingularRegistryEntry<String> {
     // Methods, can be overriden
     // Whether players can buy, sell, or both right now
     public PurchadeMode purchadeMode(Calendar c) {
-        return c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ? PurchadeMode.SELLING : PurchadeMode.BUYING;
+        return c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ? PurchadeMode.SELL : PurchadeMode.BUY;
+    }
+
+    public PurchadeMode purchadeMode() {
+        return purchadeMode(Main.getCalendar());
     }
     // Whether the Market is open
     public boolean isOpen(Calendar c, @Nullable User u) {
@@ -208,8 +223,8 @@ public abstract class Market implements SingularRegistryEntry<String> {
     // Different from Market's being open and closed, as open or closing is used for determining when stock and player count should be reset.
     // This is because sometimes Markets can be open without being bought or sold from, and without resetting counts.
     public enum PurchadeMode {
-        BUYING("buy", "buying"),
-        SELLING("sell", "selling"),
+        BUY("buy", "buying"),
+        SELL("sell", "selling"),
         BOTH("buy and sell", "buying and selling"),
         NEITHER("neither buy nor sell", "neither buying nor selling");
 

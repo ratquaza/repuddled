@@ -25,6 +25,8 @@ public class Main {
 
     private static HashMap<Guild, TextChannel> notificationChannels = new HashMap<>();
 
+    public static final int PUDDLE_DAY_INTERVAL = 8;
+
     public static void main(String[] args) throws LoginException, InterruptedException {
         bot = JDABuilder.createDefault("NzAzNTczNTQwNDMxMDY5MjE1.XrMEXw.i5rArN5jC5GWxyIvyc_nUUCzE9U",
                 GatewayIntent.GUILD_MEMBERS, GatewayIntent.values())

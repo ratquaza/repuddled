@@ -11,7 +11,7 @@ import java.util.Calendar;
 
 public class DragonMarket extends Market {
     public DragonMarket() {
-        super("Dragon Egg", 30, new Color(100, 0, 255), true,1, 50);
+        super("Dragon Egg", 30, new Color(100, 0, 255), true,1, 50, 1024);
     }
 
     protected void newValues() {
@@ -52,7 +52,7 @@ public class DragonMarket extends Market {
     // Otherwise, buying Dragons
     @Override
     public PurchadeMode purchadeMode(Calendar c) {
-        return c.get(Calendar.HOUR_OF_DAY) % 8 == 0 ? PurchadeMode.BOTH : PurchadeMode.BUYING;
+        return c.get(Calendar.HOUR_OF_DAY) % 8 == 0 ? PurchadeMode.BOTH : PurchadeMode.SELL;
     }
 
     // If the day is Thursday or Friday, the Market is open

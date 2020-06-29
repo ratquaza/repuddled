@@ -8,7 +8,7 @@ import java.util.Calendar;
 
 public class SapphireMarket extends Market {
     public SapphireMarket() {
-        super("Sapphire", 10, new Color(10, 100, 255), false, 500, 1000);
+        super("Sapphire", 10, new Color(10, 100, 255), false, 500, 1000, 1024);
     }
 
     protected void newValues() {
@@ -50,8 +50,8 @@ public class SapphireMarket extends Market {
     // Firday: Buying Sapphires
     @Override
     public PurchadeMode purchadeMode(Calendar c) {
-        return c.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY ? PurchadeMode.SELLING :
-                c.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY ? PurchadeMode.BUYING : PurchadeMode.NEITHER;
+        return c.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY ? PurchadeMode.BUY :
+                c.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY ? PurchadeMode.SELL : PurchadeMode.NEITHER;
     }
 
     // If the day is a weekend, the Market is closed
