@@ -28,7 +28,7 @@ public class Main {
     public static final int PUDDLE_DAY_INTERVAL = 8;
 
     public static void main(String[] args) throws LoginException, InterruptedException {
-        bot = JDABuilder.createDefault("NzAzNTczNTQwNDMxMDY5MjE1.XrMEXw.i5rArN5jC5GWxyIvyc_nUUCzE9U",
+        bot = JDABuilder.createDefault(/* Censored */,
                 GatewayIntent.GUILD_MEMBERS, GatewayIntent.values())
                 .setMemberCachePolicy(MemberCachePolicy.ALL)
                 .build().awaitReady();
